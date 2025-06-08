@@ -1,8 +1,8 @@
-import React from 'react'
-import '../Login.css'
-import logo from '../assets/ifba_logo.png'
+import React from 'react';
+import '../Login.css';
+import logo from '../assets/ifba_logo.png';
 
-export default function Login() {
+export default function Login({ onCadastroClick }) {
   return (
     <div className="login-container">
       <img 
@@ -24,12 +24,18 @@ export default function Login() {
       <button className="secondary-btn" style={{ marginBottom: '0.5rem' }}>
         Esqueci minha senha
       </button>
-      <button className="secondary-btn" style={{ marginBottom: '0.5rem' }}>
+
+      <button
+        className="secondary-btn"
+        style={{ marginBottom: '0.5rem' }}
+        onClick={onCadastroClick}  // aqui é a mudança principal
+      >
         Cadastre-se
       </button>
+
       <button className="secondary-btn">
         Validar certificado
       </button>
     </div>
-  )
+  );
 }
