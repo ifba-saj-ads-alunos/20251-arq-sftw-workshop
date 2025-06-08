@@ -44,8 +44,6 @@ export default function CadastroUsuario({ onBack }) {
         alt="Logo" 
         className="logo"
       />
-      <h2>Cadastro de Usuário</h2>
-
       <form onSubmit={handleSubmit} className="cadastro-form">
         <label>
           Nome:
