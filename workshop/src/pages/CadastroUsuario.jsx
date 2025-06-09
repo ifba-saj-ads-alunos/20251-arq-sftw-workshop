@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CadastroUsuario.css';
+import '../styles/CadastroUsuario.css';
 import logo from '../assets/ifba_logo.png';
 
 export default function CadastroUsuario({ onBack }) {
@@ -76,7 +76,7 @@ export default function CadastroUsuario({ onBack }) {
         </label>
 
         <label>
-          Tipo:
+          Perfil:
           <select
             name="tipo"
             value={formData.tipo}
