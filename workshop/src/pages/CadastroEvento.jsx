@@ -12,7 +12,7 @@ export default function CadastroEvento({ onBack }) {
     vagas: '',
     palestrante: '',
     curriculo: '',
-    localidade: 'Remota'
+    localidade: 'Remota',
   });
 
   const [status, setStatus] = useState('');
@@ -30,17 +30,8 @@ export default function CadastroEvento({ onBack }) {
     setLoading(true);
     setStatus('');
 
-    // Simular envio (sem backend)
     setTimeout(() => {
-      if (
-        formData.titulo &&
-        formData.descricao &&
-        formData.dataInicio &&
-        formData.dataFim &&
-        formData.vagas &&
-        formData.palestrante &&
-        formData.curriculo
-      ) {
+      if (formData.titulo && formData.descricao && formData.dataInicio && formData.dataFim && formData.vagas && formData.palestrante && formData.curriculo) {
         setStatus('Evento cadastrado e aguardando aprovação.');
       } else {
         setStatus('Erro: preencha todos os campos corretamente.');
@@ -50,11 +41,16 @@ export default function CadastroEvento({ onBack }) {
   };
 
   return (
-    <div className="cadastro-evento-container">
-      <img src={logo} alt="Logo" className="logo" />
+    <div className="cadastro-container">
+      <img 
+        src={logo}
+        alt="Logo" 
+        className="logo"
+      />
+
       <h2>Cadastro de Evento</h2>
 
-      <form onSubmit={handleSubmit} className="cadastro-evento-form">
+      <form onSubmit={handleSubmit} className="cadastro-form">
         <label>
           Título:
           <input
@@ -149,19 +145,11 @@ export default function CadastroEvento({ onBack }) {
           </select>
         </label>
 
-        <button
-          type="submit"
-          className="cadastro-btn"
-          disabled={loading}
-        >
+        <button type="submit" className="cadastro-btn" disabled={loading}>
           {loading ? 'Cadastrando...' : 'Cadastrar Evento'}
         </button>
 
-        <button
-          type="button"
-          className="secondary-btn"
-          onClick={onBack}
-        >
+        <button type="button" className="secondary-btn" onClick={onBack}>
           Voltar
         </button>
       </form>
