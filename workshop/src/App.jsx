@@ -2,20 +2,13 @@ import React, { useState } from 'react';
 import Login from './pages/Login';
 import CadastroUsuario from './pages/CadastroUsuario';
 import TelaPrincipal from './pages/TelaPrincipal';
+import CadastroEvento from './pages/CadastroEvento';
 
-export default function App() {
+function App() {
   const [tela, setTela] = useState('login');
 
   const handleLoginSuccess = () => {
     setTela('principal');
-  };
-
-  const handleCadastroClick = () => {
-    setTela('cadastro');
-  };
-
-  const handleBackToLogin = () => {
-    setTela('login');
   };
 
   const handleLogout = () => {
@@ -23,21 +16,30 @@ export default function App() {
   };
 
   return (
-    <>
+    <div>
       {tela === 'login' && (
-        <Login 
-          onCadastroClick={handleCadastroClick} 
+        <Login
+          onCadastroClick={() => setTela('cadastroUsuario')}
           onLoginSuccess={handleLoginSuccess}
         />
       )}
 
-      {tela === 'cadastro' && (
-        <CadastroUsuario onBack={handleBackToLogin} />
+      {tela === 'cadastroUsuario' && (
+        <CadastroUsuario onBack={() => setTela('login')} />
       )}
 
       {tela === 'principal' && (
-        <TelaPrincipal onLogout={handleLogout} />
+        <TelaPrincipal
+          onLogout={handleLogout}
+          onCadastrarEvento={() => setTela('cadastroEvento')}
+        />
       )}
-    </>
+
+      {tela === 'cadastroEvento' && (
+        <CadastroEvento onBack={() => setTela('principal')} />
+      )}
+    </div>
   );
 }
+
+export default App;

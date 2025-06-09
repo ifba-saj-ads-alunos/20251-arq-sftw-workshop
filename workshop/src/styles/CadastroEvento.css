@@ -1,0 +1,142 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f4f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+/* Container geral com espaçamento fluido */
+.cadastro-evento-container {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin: 2rem 1rem; /* espaçamento lateral para telas pequenas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo no topo sempre centralizada */
+.logo {
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Título */
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Formulário */
+form {
+  width: 100%;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Inputs e Selects */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #10B981;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #0f9e6e;
+  box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+  outline: none;
+}
+
+/* Botões */
+button {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button.cadastro-btn {
+  background-color: #10B981;
+  color: white;
+  font-weight: bold;
+}
+
+button.cadastro-btn:hover {
+  background-color: #0f9e6e;
+}
+
+button.secondary-btn {
+  background-color: transparent;
+  color: #10B981;
+  font-weight: bold;
+  border: 2px solid #10B981;
+}
+
+button.secondary-btn:hover {
+  background-color: #10B981;
+  color: white;
+}
+
+/* Mensagem de status */
+.mensagem {
+  text-align: center;
+  font-weight: bold;
+  color: #10B981;
+  margin-top: 1rem;
+}
+
+/* Responsividade extra */
+@media (max-width: 480px) {
+  .cadastro-evento-container {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .logo {
+    max-width: 120px;
+    margin-bottom: 0.75rem;
+  }
+}

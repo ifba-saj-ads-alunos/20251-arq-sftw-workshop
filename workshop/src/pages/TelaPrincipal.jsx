@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/TelaPrincipal.css';
 import logo from '../assets/ifba_logo.png';
 
-export default function TelaPrincipal({ onLogout }) {
+export default function TelaPrincipal({ onLogout, onCadastrarEvento }) {
   return (
     <div className="principal-container">
       <img 
@@ -21,8 +21,8 @@ export default function TelaPrincipal({ onLogout }) {
       </div>
 
       <button className="principal-btn">Cursos Inscritos</button>
-      <button className="principal-btn">Cadastrar Evento</button>
-      <button className="principal-btn">Visualizar os Certificados</button>
+      <button className="principal-btn" onClick={onCadastrarEvento}>Cadastrar Evento</button>
+      <button className="principal-btn">Visualizar Certificados</button>
       <button className="logout-btn" onClick={onLogout}>Logout</button>
     </div>
   );
