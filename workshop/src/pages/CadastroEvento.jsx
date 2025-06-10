@@ -13,6 +13,8 @@ export default function CadastroEvento({ onBack }) {
     palestrante: '',
     curriculo: '',
     localidade: 'Remota',
+    link: '',
+    sala: '',
   });
 
   const [status, setStatus] = useState('');
@@ -32,7 +34,14 @@ export default function CadastroEvento({ onBack }) {
 
     setTimeout(() => {
       if (formData.titulo && formData.descricao && formData.dataInicio && formData.dataFim && formData.vagas && formData.palestrante && formData.curriculo) {
-        setStatus('Evento cadastrado e aguardando aprovação.');
+        // Verificação adicional dos campos condicionais
+        if (formData.localidade === 'Remota' && !formData.link) {
+          setStatus('Erro: informe o link do evento remoto.');
+        } else if (formData.localidade === 'Presencial' && !formData.sala) {
+          setStatus('Erro: selecione a sala para o evento presencial.');
+        } else {
+          setStatus('Evento cadastrado e aguardando aprovação.');
+        }
       } else {
         setStatus('Erro: preencha todos os campos corretamente.');
       }
@@ -144,6 +153,38 @@ export default function CadastroEvento({ onBack }) {
             <option value="Presencial">Presencial</option>
           </select>
         </label>
+
+        {/* Campo Condicional para Link */}
+        {formData.localidade === 'Remota' && (
+          <label>
+            Link do Evento:
+            <input
+              type="url"
+              name="link"
+              value={formData.link}
+              onChange={handleChange}
+              placeholder="https://exemplo.com"
+            />
+          </label>
+        )}
+
+        {/* Campo Condicional para Sala */}
+        {formData.localidade === 'Presencial' && (
+          <label>
+            Sala:
+            <select
+              name="sala"
+              value={formData.sala}
+              onChange={handleChange}
+            >
+              <option value="">Selecione a Sala</option>
+              <option value="Sala 101">Sala 101</option>
+              <option value="Sala 102">Sala 102</option>
+              <option value="Auditório">Auditório</option>
+              {/* Futuramente populado dinamicamente */}
+            </select>
+          </label>
+        )}
 
         <button type="submit" className="cadastro-btn" disabled={loading}>
           {loading ? 'Cadastrando...' : 'Cadastrar Evento'}

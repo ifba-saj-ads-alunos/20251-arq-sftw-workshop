@@ -56,6 +56,7 @@ input[type="email"],
 input[type="password"],
 input[type="date"],
 input[type="number"],
+input[type="url"],
 textarea,
 select {
   width: 100%;
