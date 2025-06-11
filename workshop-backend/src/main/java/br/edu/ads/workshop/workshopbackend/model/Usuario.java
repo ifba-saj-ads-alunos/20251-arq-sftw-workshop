@@ -1,4 +1,4 @@
-package br.edu.ads.workshop.workshop_backend.model;
+package br.edu.ads.workshop.workshopbackend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
