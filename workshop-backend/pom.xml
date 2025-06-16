@@ -17,7 +17,7 @@
 
     <modules>
         <module>workshop-core</module>
-        <module>workhop-api</module>
+        <module>workshop-api</module>
     </modules>
 
     <properties>
