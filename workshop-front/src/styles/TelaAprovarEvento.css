@@ -1,0 +1,17 @@
+button.aprovar-btn {
+  border: 2px solid #10B981;
+}
+
+button.aprovar-btn:hover {
+  background-color: #10B981;
+  color: white;
+}
+
+button.reprovar-btn {
+  border: 2px solid #b91029;
+}
+
+button.reprovar-btn:hover {
+  background-color: #b91029;
+  color: white;
+}

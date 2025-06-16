@@ -12,6 +12,50 @@ body, html, #root {
   align-items: center;
 }
 
+.tela-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.menu-hamburguer {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.menu-lateral {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 5;
+}
+
+.menu-lateral button {
+  background-color: transparent;
+  color: #10B981;
+  border: 2px solid #10B981;
+  padding: 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.menu-lateral button:hover {
+  background-color: #10B981;
+  color: white;
+}
+
 .principal-container {
   background: white;
   padding: 2rem;
@@ -19,6 +63,7 @@ body, html, #root {
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
   width: 360px;
   text-align: center;
+  margin-top: 3rem;
 }
 
 h2 {
@@ -58,25 +103,31 @@ button.principal-btn:hover {
   background-color: #0f9e6e;
 }
 
+button.secondary-btn {
+  background-color: transparent;
+  color: #10B981;
+  font-weight: bold;
+  border: 2px solid #10B981;
+}
+
+button.secondary-btn:hover {
+  background-color: #10B981;
+  color: white;
+}
+
 .logo {
   max-width: 150px;
   margin: 0 auto 1rem;
   display: block;
 }
-button.logout-btn {
-  width: 100%;
-  padding: 0.6rem;
-  margin-top: 1rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: #EF4444; /* vermelho */
-  color: white;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
-}
 
-button.logout-btn:hover {
-  background-color: #dc2626;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  z-index: 4;
 }
