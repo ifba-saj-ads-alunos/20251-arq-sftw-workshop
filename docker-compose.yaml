@@ -8,6 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: workshop12345
       MYSQL_DATABASE: ifba_workshop
       MYSQL_USER: developer
+      MYSQL_PASSWORD: developer123
     volumes:
       - db-mysql-ifba-workshop-dev:/var/lib/mysql
 
