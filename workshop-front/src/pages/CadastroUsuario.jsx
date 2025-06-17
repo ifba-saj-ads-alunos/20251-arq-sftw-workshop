@@ -21,20 +21,46 @@ export default function CadastroUsuario({ onBack }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setStatus('');
+
+  //   // Simular envio (sem backend)
+  //   setTimeout(() => {
+  //     if (formData.nome && formData.cpf && formData.email && formData.senha) {
+  //       setStatus('Usuário cadastrado com sucesso!');
+  //     } else {
+  //       setStatus('Erro: preencha todos os campos corretamente.');
+  //     }
+  //     setLoading(false);
+  //   }, 1000); // 1 segundo de "espera"
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatus('');
 
-    // Simular envio (sem backend)
-    setTimeout(() => {
-      if (formData.nome && formData.cpf && formData.email && formData.senha) {
-        setStatus('Usuário cadastrado com sucesso!');
+    try {
+      const response = await fetch('/api/v1/auth/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: email,
+          password: senha
+        })
+      });
+      if (response.ok) {
+        const user = await response.json();
+        onLoginSuccess(user);
       } else {
-        setStatus('Erro: preencha todos os campos corretamente.');
+        setStatus('Usuario ou senha inválidos');
       }
-      setLoading(false);
-    }, 1000); // 1 segundo de "espera"
+    }catch (err){
+      setStatus('Erro ao conectar com o servidor.');
+    }
+    setLoading(false);
   };
 
   return (
