@@ -7,6 +7,8 @@ import br.ifba.ads.workshop.core.domain.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import br.ifba.ads.workshop.api.mappers.UserApiMapper;
 import br.ifba.ads.workshop.api.persistence.adapters.UserRepositoryAdapter;
+import br.ifba.ads.workshop.api.security.JwtUtil;
 import br.ifba.ads.workshop.core.application.mappers.UserMapper;
 
 @RestController
@@ -52,10 +55,7 @@ public class AuthController {
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
         }
-        var user = userOpt.get();
-        if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
-        }
-        return ResponseEntity.ok(userMapper.toOutput(user));
+        String token = jwtUtil.generateToken(userOpt.get().getEmail());
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }
