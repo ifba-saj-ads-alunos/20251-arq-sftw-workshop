@@ -6,8 +6,8 @@ public record UserOutput(
         UUID id,
         String name,
         String email,
-        String userRoleId,
-        String accessLevelId
+        int userRoleId,
+        int accessLevelId
 )
 {
 }

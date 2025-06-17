@@ -2,11 +2,13 @@ package br.ifba.ads.workshop.api.persistence.repositories;
 
 import br.ifba.ads.workshop.api.persistence.entities.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.stereotype.Repository;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-
+@NoRepositoryBean
 public interface JpaBaseRepository<T extends BaseEntity, ID> extends JpaRepository<T, ID> {
 
    Optional<T> findByIdAndDeletedIsFalse(ID id);

@@ -1,6 +1,6 @@
 package br.ifba.ads.workshop.api.persistence.adapters;
 import br.ifba.ads.workshop.api.persistence.entities.BaseEntity;
-import br.ifba.ads.workshop.api.persistence.mappers.BasePersistenteMapper;
+import br.ifba.ads.workshop.api.mappers.BaseEntityMapper;
 import br.ifba.ads.workshop.api.persistence.repositories.JpaBaseRepository;
 import br.ifba.ads.workshop.core.application.ports.out.repositories.CrudRepositoryPort;
 import br.ifba.ads.workshop.core.domain.models.ModelWithIdentifier;
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Component
+
 @RequiredArgsConstructor
 public abstract class CrudRepositoryAdapter<T extends ModelWithIdentifier, ID, E extends BaseEntity>
         implements CrudRepositoryPort<T, ID>
 {
     private final JpaBaseRepository<E, ID> jpaBaseRepository;
-    private final BasePersistenteMapper <T , E> mapper;
+    private final BaseEntityMapper<T , E> mapper;
 
     @Override
     public T save(T entity) {

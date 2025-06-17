@@ -2,19 +2,23 @@ package br.ifba.ads.workshop.api.persistence.entities.user;
 
 import br.ifba.ads.workshop.api.persistence.entities.AccessLevelEntity;
 import br.ifba.ads.workshop.api.persistence.entities.BaseEntity;
+import br.ifba.ads.workshop.core.domain.models.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
-@Getter
 @Table(name = "users")
 @AllArgsConstructor
+@Getter
+@Setter
 public class UserEntity extends BaseEntity {
     private String name;
     private String email;

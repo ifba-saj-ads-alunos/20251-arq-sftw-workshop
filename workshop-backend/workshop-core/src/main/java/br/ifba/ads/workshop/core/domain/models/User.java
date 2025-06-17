@@ -6,8 +6,6 @@ import br.ifba.ads.workshop.core.domain.models.enums.UserRole;
 import br.ifba.ads.workshop.core.domain.utils.UserRoleUtils;
 import lombok.Getter;
 
-
-
 @Getter
 public class User extends ModelWithIdentifier {
     private String name;
@@ -27,11 +25,6 @@ public class User extends ModelWithIdentifier {
         this.accessLevel = accessLevel;
         this.password = password;
         validateUserData();
-    }
-
-    public User(String name, String email, UserRole userRole, AccessLevel accessLevel, String password)
-            throws InvalidDataException {
-        this(null, name, email, userRole, accessLevel, password);
     }
 
     public void updateProfile(String name, String email) throws InvalidDataException {
