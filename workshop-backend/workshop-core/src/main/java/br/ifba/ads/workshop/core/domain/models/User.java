@@ -4,9 +4,9 @@ import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
 import br.ifba.ads.workshop.core.domain.models.enums.AccessLevel;
 import br.ifba.ads.workshop.core.domain.models.enums.UserRole;
 import br.ifba.ads.workshop.core.domain.utils.UserRoleUtils;
-import lombok.Getter;
 
-@Getter
+import java.util.UUID;
+
 public class User extends ModelWithIdentifier {
     private String name;
     private String email;
@@ -15,7 +15,7 @@ public class User extends ModelWithIdentifier {
     private String password;
 
 
-    public User(String id, String name, String email, UserRole userRole, AccessLevel accessLevel, String password)
+    public User(UUID id, String name, String email, UserRole userRole, AccessLevel accessLevel, String password)
             throws InvalidDataException
     {
         super(id);
@@ -54,7 +54,7 @@ public class User extends ModelWithIdentifier {
         validateAccessLevel(this.accessLevel);
     }
 
-    private void validateName(String name) throws InvalidDataException {
+    private void validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new InvalidDataException("Nome não pode ser vazio");
         }
@@ -103,5 +103,25 @@ public class User extends ModelWithIdentifier {
         if (accessLevel == null) {
             throw new InvalidDataException("Nível de acesso não pode ser nulo");
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

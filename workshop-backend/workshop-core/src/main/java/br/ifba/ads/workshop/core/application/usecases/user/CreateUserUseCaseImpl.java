@@ -9,13 +9,18 @@ import br.ifba.ads.workshop.core.application.usecases.user.dtos.CreateUserComman
 import br.ifba.ads.workshop.core.application.usecases.user.dtos.UserOutput;
 import br.ifba.ads.workshop.core.domain.models.User;
 import br.ifba.ads.workshop.core.domain.models.enums.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
     private final UserRepositoryPort userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoderPort passwordEncoder;
+
+    public CreateUserUseCaseImpl(UserRepositoryPort userRepository, PasswordEncoderPort passwordEncoder, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserOutput execute(CreateUserCommand command)

@@ -1,5 +1,7 @@
 package br.ifba.ads.workshop.core.domain.models.enums;
 
+import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
+
 public enum UserRole {
     STUDENT(1),
     EMPLOYEE(2),
@@ -22,6 +24,6 @@ public enum UserRole {
                 return role;
             }
         }
-        throw new IllegalArgumentException("Invalid UserRole value: " + value);
+        throw new InvalidDataException("Invalid UserRole value: " + value);
     }
 }

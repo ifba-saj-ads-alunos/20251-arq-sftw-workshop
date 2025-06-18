@@ -1,0 +1,7 @@
+# Web configuration for the workshop application
+server:
+  port: 8080
+spring:
+  application:
+    name: workshop-web
+    jwt-security: sajsajssa

@@ -1,14 +1,11 @@
 package br.ifba.ads.workshop.core.domain.models;
-
-import lombok.Getter;
-
 import java.util.Objects;
+import java.util.UUID;
 
-@Getter
 public abstract class ModelWithIdentifier {
-    protected String id;
+    protected UUID id;
 
-    public ModelWithIdentifier(String id) {
+    public ModelWithIdentifier(UUID id) {
         this.id = id;
     }
 
@@ -26,5 +23,9 @@ public abstract class ModelWithIdentifier {
 
     public boolean isNew() {
         return id == null;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
