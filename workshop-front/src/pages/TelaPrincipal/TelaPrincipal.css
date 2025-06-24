@@ -1,7 +1,6 @@
 .tela-container {
   position: relative;
-  width: 100%;
-  max-width: 400px;
+  margin: 2rem auto;
 }
 
 .menu-hamburguer {
@@ -47,14 +46,10 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  width: 360px;
   text-align: center;
-  margin-top: 3rem;
-}
-
-h2 {
-  margin-bottom: 1rem;
-  color: #333;
+  margin-top: 2rem;  
+  width: 90vw;
+  min-height: calc(100vh - 4rem); 
 }
 
 .eventos-quadro {
@@ -101,12 +96,6 @@ button.secondary-btn:hover {
   color: white;
 }
 
-.logo {
-  max-width: 150px;
-  margin: 0 auto 1rem;
-  display: block;
-}
-
 .overlay {
   position: absolute;
   top: 0;
@@ -116,4 +105,73 @@ button.secondary-btn:hover {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   z-index: 4;
+}
+
+#h2-eventos {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Responsividade para tablets*/
+@media (min-width: 600px) {
+  .principal-container {
+    padding: 2.5rem;
+  }
+
+  .menu-lateral {
+    width: 50%;
+    height: -webkit-fill-available;
+  }
+}
+
+/* Responsividade para desktops */
+@media (min-width: 900px) {
+  .principal-container {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  button.tela-principal{
+    margin: 1rem;
+    width: 5rem;
+    height: 5rem;
+    padding: 2rem;
+    box-sizing: content-box;
+  }
+
+  .topo-pagina{    
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    order: 1;
+  }
+
+  .logo {
+    margin: 0;
+    margin-left: 1.5rem;
+  }
+  
+  .eventos-quadro {
+    margin-left: 1.5rem;
+    order: 3;
+  }
+
+  .lista-botoes{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    margin-left: auto;
+  }
+
+  .menu-lateral {
+    width: 20%;
+    height: -webkit-fill-available;
+  }
+
+  #h2-eventos {
+    text-align: start;
+    margin-left: 1.5rem;
+    order: 2;
+  }
 }

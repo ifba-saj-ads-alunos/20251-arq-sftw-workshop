@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Login from './pages/Login';
-import CadastroUsuario from './pages/CadastroUsuario';
-import TelaPrincipal from './pages/TelaPrincipal';
-import CadastroEvento from './pages/CadastroEvento';
-import TelaAdministrador from './pages/TelaAdministrador';
-import TelaAprovarEvento from './pages/TelaAprovarEvento';
+import Login from './pages/Login/Login.jsx';
+import CadastroUsuario from './pages/CadastroUsuario/CadastroUsuario.jsx';
+import TelaPrincipal from './pages/TelaPrincipal/TelaPrincipal.jsx';
+import CadastroEvento from './pages/CadastroEvento/CadastroEvento.jsx';
+import TelaAdministrador from './pages/TelaAdministrador/TelaAdministrador.jsx';
+import TelaAprovarEvento from './pages/TelaAprovarEvento/TelaAprovarEvento.jsx';
 
 function App() {
   const [tela, setTela] = useState('login');

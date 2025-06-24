@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../styles/CadastroEvento.css';
-import logo from '../assets/ifba_logo.png';
+import './CadastroEvento.css';
+import logo from '../../assets/ifba_logo.png';
 
 export default function CadastroEvento({ onBack }) {
   const [formData, setFormData] = useState({

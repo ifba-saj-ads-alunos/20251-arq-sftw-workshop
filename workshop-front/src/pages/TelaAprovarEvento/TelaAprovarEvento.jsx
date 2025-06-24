@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import '../styles/TelaPrincipal.css';
-import '../styles/TelaAprovarEvento.css';
-import logo from '../assets/ifba_logo.png';
+import '../TelaPrincipal/TelaPrincipal.css';
+import './TelaAprovarEvento.css';
+import logo from '../../assets/ifba_logo.png';
 
 export default function TelaAprovarEvento({ onVoltar }) {
   const [eventosParaAprovar, setEventosParaAprovar] = useState([ //apenas para teste

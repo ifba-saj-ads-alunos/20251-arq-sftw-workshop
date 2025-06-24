@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../styles/CadastroUsuario.css';
-import logo from '../assets/ifba_logo.png';
+import './CadastroUsuario.css';
+import logo from '../../assets/ifba_logo.png';
 
 export default function CadastroUsuario({ onBack }) {
   const [formData, setFormData] = useState({

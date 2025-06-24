@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../styles/TelaPrincipal.css';
-import logo from '../assets/ifba_logo.png';
+import './TelaPrincipal.css';
+import logo from '../../assets/ifba_logo.png';
 import { FaBars } from 'react-icons/fa';
 
 export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador }) {
@@ -36,21 +36,26 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
           </div>
         )}
 
-        <img 
-          src={logo}
-          alt="Logo" 
-          className="logo"
-        />
+        <div className="topo-pagina">
+           <img 
+            src={logo}
+            alt="Logo" 
+            className="logo"
+          />
 
-        <h2>Eventos Disponíveis</h2>
+          <div className="lista-botoes tela-principal">
+            <button className="principal-btn tela-principal">Cursos Inscritos</button>
+            <button className="principal-btn tela-principal">Visualizar Certificados</button>
+            <button className="principal-btn tela-principal">Ranking de Eventos</button>
+          </div>
+        </div>
+
+        <h2 id="h2-eventos">Eventos Disponíveis</h2>
         
         <div className="eventos-quadro">
           <p>Nenhum evento disponível.</p>
         </div>
 
-        <button className="principal-btn">Cursos Inscritos</button>
-        <button className="principal-btn">Visualizar Certificados</button>
-        <button className="principal-btn">Ranking de Eventos</button>
       </div>
     </div>
   );

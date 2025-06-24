@@ -1,6 +1,6 @@
 import React from 'react';
-import '../styles/TelaPrincipal.css';
-import logo from '../assets/ifba_logo.png';
+import '../TelaPrincipal/TelaPrincipal.css';
+import logo from '../../assets/ifba_logo.png';
 
 export default function TelaAdministrador({ onVoltar, onAprovarEvento }) {
   return (

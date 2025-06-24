@@ -21,9 +21,44 @@ body, html, #root {
   min-height: 100%; 
 }
 
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.logo {
+  max-width: 150px;
+  margin: 1rem auto;
+  display: block;
+}
+
+/* Responsividade para tablets*/
+@media (min-width: 600px) {
+  button,
+  button.principal-btn,
+  button.secondary-btn{
+    width: 20rem;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+}
+
+/* Responsividade para desktops */
 @media (min-width: 900px) {
   body, html, #root {
     align-items: flex-start;
     padding-top: 0;
+  }
+
+  button,
+  button.principal-btn,
+  button.secondary-btn{
+    width: 20rem;
+    font-size: 1.1rem;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+    display: block;
   }
 }
