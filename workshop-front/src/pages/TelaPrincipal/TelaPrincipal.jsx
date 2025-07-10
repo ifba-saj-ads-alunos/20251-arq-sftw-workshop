@@ -40,7 +40,7 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
            <img 
             src={logo}
             alt="Logo" 
-            className="logo"
+            className="logo tela-principal"
           />
 
           <div className="lista-botoes tela-principal">

@@ -8,15 +8,7 @@
   min-height: calc(100vh - 4rem); 
 }
 
-label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: bold;
-  color: #555;
-}
-
-input[type="email"],
-input[type="password"] {
+input.campos-login {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
@@ -131,8 +123,7 @@ button.secondary-btn:hover {
     padding: 2.5rem;
   }
 
-  input[type="email"],
-  input[type="password"] {
+  input.campos-login{
     font-size: 1.05rem;
   }
 
@@ -154,8 +145,7 @@ button.secondary-btn:hover {
     border-radius: 12px;
   }
 
-  input[type="email"],
-  input[type="password"] {
+  input.campos-login{
     font-size: 1.1rem;
   }
 

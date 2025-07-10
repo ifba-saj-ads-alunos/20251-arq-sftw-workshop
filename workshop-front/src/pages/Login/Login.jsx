@@ -39,6 +39,7 @@ export default function Login({ onCadastroClick, onLoginSuccess }) {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className='campos-login'
         />
 
         <label htmlFor="senha">Senha</label>
@@ -49,6 +50,7 @@ export default function Login({ onCadastroClick, onLoginSuccess }) {
           required
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
+          className='campos-login'
         />
 
         <button type="submit" className="login-btn">Entrar</button>

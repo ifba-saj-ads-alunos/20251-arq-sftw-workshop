@@ -1,37 +1,16 @@
-.cadastro-container {
+/*.cadastro-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  width: 90%;
-  max-width: 500px;
-  max-height: 95vh;
-  overflow-y: auto;
-  margin: 1rem auto;
-}
+}*/
 
 .cadastro-form {
   width: 100%;
 }
 
-label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: bold;
-  color: #555;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-input[type="number"],
-input[type="url"],
-textarea,
-select {
+input.cadastro-evento,
+textarea.cadastro-evento,
+select.cadastro-evento {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
@@ -50,16 +29,6 @@ button {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
-}
-
-button.cadastro-btn {
-  background-color: #10B981;
-  color: white;
-  font-weight: bold;
-}
-
-button.cadastro-btn:hover {
-  background-color: #0f9e6e;
 }
 
 button.secondary-btn {

@@ -67,6 +67,7 @@ export default function CadastroEvento({ onBack }) {
             name="titulo"
             value={formData.titulo}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -76,6 +77,7 @@ export default function CadastroEvento({ onBack }) {
             name="descricao"
             value={formData.descricao}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -85,6 +87,7 @@ export default function CadastroEvento({ onBack }) {
             name="categoria"
             value={formData.categoria}
             onChange={handleChange}
+            className='cadastro-evento'
           >
             <option value="Palestra">Palestra</option>
             <option value="Minicurso">Minicurso</option>
@@ -100,6 +103,7 @@ export default function CadastroEvento({ onBack }) {
             name="dataInicio"
             value={formData.dataInicio}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -110,6 +114,7 @@ export default function CadastroEvento({ onBack }) {
             name="dataFim"
             value={formData.dataFim}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -120,6 +125,7 @@ export default function CadastroEvento({ onBack }) {
             name="vagas"
             value={formData.vagas}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -130,6 +136,7 @@ export default function CadastroEvento({ onBack }) {
             name="palestrante"
             value={formData.palestrante}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -139,6 +146,7 @@ export default function CadastroEvento({ onBack }) {
             name="curriculo"
             value={formData.curriculo}
             onChange={handleChange}
+            className='cadastro-evento'
           />
         </label>
 
@@ -148,6 +156,7 @@ export default function CadastroEvento({ onBack }) {
             name="localidade"
             value={formData.localidade}
             onChange={handleChange}
+            className='cadastro-evento'
           >
             <option value="Remota">Remota</option>
             <option value="Presencial">Presencial</option>
@@ -164,6 +173,7 @@ export default function CadastroEvento({ onBack }) {
               value={formData.link}
               onChange={handleChange}
               placeholder="https://exemplo.com"
+              className='cadastro-evento'
             />
           </label>
         )}
@@ -176,6 +186,7 @@ export default function CadastroEvento({ onBack }) {
               name="sala"
               value={formData.sala}
               onChange={handleChange}
+              className='cadastro-evento'
             >
               <option value="">Selecione a Sala</option>
               <option value="Sala 101">Sala 101</option>

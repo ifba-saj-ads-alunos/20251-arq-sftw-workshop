@@ -1,15 +1,17 @@
 import React from 'react';
-import '../TelaPrincipal/TelaPrincipal.css';
+import './TelaAdministrador.css';
 import logo from '../../assets/ifba_logo.png';
 
 export default function TelaAdministrador({ onVoltar, onAprovarEvento }) {
   return (
-    <div className="principal-container">
+    <div className="admin-container">
       <img 
         src={logo}
         alt="Logo" 
         className="logo"
       />
+
+      <h2>Opções do Administrador</h2>
 
       <button className="principal-btn" onClick={onAprovarEvento}>Aprovar Evento</button>
       <button className="principal-btn">Excluir Evento</button>
