@@ -12,7 +12,7 @@ target/
 .idea/
 *.iml
 *.iws
-out/
+/out/
 
 # Eclipse
 .project

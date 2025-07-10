@@ -1,24 +1,32 @@
 package br.ifba.ads.workshop.core.domain.models;
 
 import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
-import br.ifba.ads.workshop.core.domain.models.enums.AccessLevel;
-import br.ifba.ads.workshop.core.domain.models.enums.UserRole;
-import br.ifba.ads.workshop.core.domain.utils.UserRoleUtils;
-import lombok.Getter;
+import br.ifba.ads.workshop.core.domain.models.valueObjects.Email;
+import br.ifba.ads.workshop.core.domain.models.valueObjects.EncryptedPassword;
 
-@Getter
-public class User extends ModelWithIdentifier {
+import java.beans.ConstructorProperties;
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
+public class User extends AuditableModel {
     private String name;
-    private String email;
+    private Email email;
     private UserRole userRole;
     private AccessLevel accessLevel;
-    private String password;
+    private EncryptedPassword password;
 
-
-    public User(String id, String name, String email, UserRole userRole, AccessLevel accessLevel, String password)
-            throws InvalidDataException
-    {
-        super(id);
+    public User(
+            UUID id,
+            ZonedDateTime createdAt,
+            ZonedDateTime updatedAt,
+            boolean deleted,
+            String name,
+            Email email,
+            UserRole userRole,
+            AccessLevel accessLevel,
+            EncryptedPassword password
+    ) {
+        super(id, createdAt, updatedAt, deleted);
         this.name = name;
         this.email = email;
         this.userRole = userRole;
@@ -27,34 +35,31 @@ public class User extends ModelWithIdentifier {
         validateUserData();
     }
 
-    public void updateProfile(String name, String email) throws InvalidDataException {
-        validateName(name);
-        validateEmail(email);
+    public User(
+            String name,
+            Email email,
+            UserRole userRole,
+            AccessLevel accessLevel,
+            EncryptedPassword password
+    ) {
+        super();
         this.name = name;
         this.email = email;
+        this.userRole = userRole;
+        this.accessLevel = accessLevel;
+        this.password = password;
+        validateUserData();
     }
 
-    public void assignRole(UserRole newUserRole, String email) throws InvalidDataException {
-        validateUserRole(newUserRole, email);
-        this.userRole = newUserRole;
-    }
 
-    public void changePassword(String newPassword) throws InvalidDataException {
-        validatePassword(newPassword);
-        this.password = newPassword;
-    }
-
-    private void validateUserData()
-            throws InvalidDataException
-    {
+    private void validateUserData() {
         validateName(this.name);
         validateEmail(this.email);
         validateUserRole(this.userRole, this.email);
-        validatePassword(this.password);
         validateAccessLevel(this.accessLevel);
     }
 
-    private void validateName(String name) throws InvalidDataException {
+    private void validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new InvalidDataException("Nome não pode ser vazio");
         }
@@ -63,45 +68,45 @@ public class User extends ModelWithIdentifier {
         }
     }
 
-    private void validateEmail(String email)
-            throws InvalidDataException
-    {
-        if (email == null || email.trim().isEmpty()) {
-            throw new InvalidDataException("Email não pode ser vazio");
-        }
-        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            throw new InvalidDataException("Formato de email inválido");
+    private void validateEmail(Email email) {
+        if (email == null) {
+            throw new InvalidDataException("Email não pode ser nulo");
         }
     }
 
-    private void validateUserRole(UserRole userRole, String email)
-            throws InvalidDataException
-    {
+    private void validateUserRole(UserRole userRole, Email email) {
         if (userRole == null) {
             throw new InvalidDataException("Tipo do usuário não pode ser nulo");
         }
 
-        if (!UserRoleUtils.verifyUserRole(email, userRole)) {
+        if (!userRole.verifyUserRole(email, userRole.getType())) {
             throw new InvalidDataException("Tipo do usuário não é válido para o email fornecido");
         }
     }
 
-    private void validatePassword(String password)
-            throws InvalidDataException
-    {
-        if (password == null || password.trim().isEmpty()) {
-            throw new InvalidDataException("Senha não pode ser vazia");
-        }
-        if (password.length() < 8) {
-            throw new InvalidDataException("Senha deve ter pelo menos 8 caracteres");
-        }
-    }
-
-    private void validateAccessLevel(AccessLevel accessLevel)
-            throws InvalidDataException
-    {
+    private void validateAccessLevel(AccessLevel accessLevel) {
         if (accessLevel == null) {
             throw new InvalidDataException("Nível de acesso não pode ser nulo");
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    public EncryptedPassword getPassword() {
+        return password;
     }
 }

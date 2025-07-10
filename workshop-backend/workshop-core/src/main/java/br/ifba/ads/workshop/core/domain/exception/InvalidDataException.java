@@ -5,7 +5,7 @@ public class InvalidDataException extends BusinessException {
     super(message);
   }
 
-    public InvalidDataException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public InvalidDataException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
