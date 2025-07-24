@@ -1,0 +1,32 @@
+#h2-certificados {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.certificados-quadro{
+  background-color: #f9f9f9;
+  border: 1px solid #10B981;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.certificados-quadro p{
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+/* Responsividade para desktops */
+@media (min-width: 900px) {
+  #h2-certificados {
+    text-align: start;
+    margin-left: 1.5rem;
+    order: 2;
+  }
+
+  .certificados-quadro {
+    margin-left: 1.5rem;
+    order: 3;
+  }
+}

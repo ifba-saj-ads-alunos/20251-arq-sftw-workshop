@@ -3,7 +3,7 @@ import './TelaPrincipal.css';
 import logo from '../../assets/ifba_logo.png';
 import { FaBars } from 'react-icons/fa';
 
-export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador }) {
+export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados }) {
   const [menuAberto, setMenuAberto] = useState(false);
 
   const toggleMenu = () => {
@@ -44,8 +44,12 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
           />
 
           <div className="lista-botoes tela-principal">
-            <button className="principal-btn tela-principal">Cursos Inscritos</button>
-            <button className="principal-btn tela-principal">Visualizar Certificados</button>
+            <button className="principal-btn tela-principal" onClick={onVisualizarMeusEventos}>
+              Eventos Inscritos
+            </button>
+            <button className="principal-btn tela-principal" onClick={onVisualizarMeusCertificados}>
+              Certificados
+            </button>
             <button className="principal-btn tela-principal">Ranking de Eventos</button>
           </div>
         </div>

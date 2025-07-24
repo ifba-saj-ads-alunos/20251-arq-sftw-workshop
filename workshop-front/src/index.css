@@ -95,7 +95,8 @@ button.cadastro-btn:hover {
 @media (min-width: 600px) {
   button,
   button.principal-btn,
-  button.secondary-btn{
+  button.secondary-btn,
+  button.cadastro-btn{
     width: 20rem;
     margin: 0 auto;
     margin-bottom: 0.5rem;
@@ -112,7 +113,8 @@ button.cadastro-btn:hover {
 
   button,
   button.principal-btn,
-  button.secondary-btn{
+  button.secondary-btn,
+  button.cadastro-btn{
     width: 20rem;
     font-size: 1.1rem;
     margin: 0 auto;

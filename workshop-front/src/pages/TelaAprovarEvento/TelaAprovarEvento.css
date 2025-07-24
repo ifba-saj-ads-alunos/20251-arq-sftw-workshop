@@ -15,3 +15,42 @@ button.reprovar-btn:hover {
   background-color: #b91029;
   color: white;
 }
+
+.quadro-evento {
+  background-color: #f9f9f9;
+  border: 1px solid #10B981;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+/* Responsividade para tablets*/
+@media (min-width: 600px) {
+  button.tela-aprovar-evento{
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* Responsividade para desktops */
+@media (min-width: 900px) {
+  button.tela-aprovar-evento{
+    width: 16rem;
+    margin: 0 auto;
+  }
+
+  .quadro-evento {
+    width: 20rem;    
+    margin: 1rem;
+    padding: 2rem;
+  }
+
+  .eventos{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    margin: 0 auto;
+    margin-left: auto;
+  }
+}

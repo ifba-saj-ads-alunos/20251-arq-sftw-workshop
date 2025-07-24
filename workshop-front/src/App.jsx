@@ -5,6 +5,8 @@ import TelaPrincipal from './pages/TelaPrincipal/TelaPrincipal.jsx';
 import CadastroEvento from './pages/CadastroEvento/CadastroEvento.jsx';
 import TelaAdministrador from './pages/TelaAdministrador/TelaAdministrador.jsx';
 import TelaAprovarEvento from './pages/TelaAprovarEvento/TelaAprovarEvento.jsx';
+import EventosInscritos from './pages/EventosInscritos/EventosInscritos.jsx';
+import VisualizarCertificados from './pages/VisualizarCertificados/VisualizarCertificados.jsx';
 
 function App() {
   const [tela, setTela] = useState('login');
@@ -35,6 +37,8 @@ function App() {
           onLogout={handleLogout}
           onCadastrarEvento={() => setTela('cadastroEvento')}
           onAbrirAdministrador={() => setTela('administrador')}
+          onVisualizarMeusEventos={() => setTela('eventosInscritos')}
+          onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}
         />
       )}
 
@@ -51,6 +55,18 @@ function App() {
 
       {tela === 'aprovarEvento' && (
         <TelaAprovarEvento onVoltar={() => setTela('administrador')} />
+      )}
+
+      {tela === 'eventosInscritos' && (
+        <EventosInscritos
+          onBack={() => setTela('principal')}
+          onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}/>
+      )}
+
+      {tela === 'visualizarCertificados' && (
+        <VisualizarCertificados
+          onBack={() => setTela('principal')}
+          onVisualizarMeusEventos={() => setTela('eventosInscritos')} />
       )}
     </div>
   );
