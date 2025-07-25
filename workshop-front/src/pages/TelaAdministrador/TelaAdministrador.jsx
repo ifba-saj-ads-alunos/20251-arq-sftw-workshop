@@ -17,7 +17,7 @@ export default function TelaAdministrador({ onVoltar, onAprovarEvento }) {
       <button className="principal-btn">Excluir Evento</button>
       <button className="principal-btn">Cadastrar Sala</button>
       <button className="principal-btn">Editar Sala</button>
-      <button className="principal-btn">Cadastrar Admin</button>
+      <button className="principal-btn">Gerenciar Usuarios</button>
       <button className="secondary-btn" onClick={onVoltar}>Voltar</button>
     </div>
   );

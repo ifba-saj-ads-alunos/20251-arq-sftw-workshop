@@ -1,15 +1,15 @@
-const mockUsuarios = [
-  { email: 'usuario1@ifba.edu.br', senha: '123456' },
-  { email: 'admin@ifba.edu.br', senha: 'admin123' },
-  { email: '1@1', senha: '1'},
-];
+import usuariosMock from '../mocks/usuariosMock';
 
 export function verificarEmailExiste(email) {
-  return mockUsuarios.some(usuario => usuario.email === email);
+  return usuariosMock.some(usuario => usuario.email === email);
 }
 
 export function autenticar(email, senha) {
-  return mockUsuarios.some(usuario => usuario.email === email && usuario.senha === senha);
+  return usuariosMock.some(usuario => usuario.email === email && usuario.senha === senha);
+}
+
+export function obterUsuarioPorEmail(email) {
+  return usuariosMock.find(usuario => usuario.email === email);
 }
 
 // este arquivo simula um banco e oferece funções reutilizáveis para autenticação e verificação de email.

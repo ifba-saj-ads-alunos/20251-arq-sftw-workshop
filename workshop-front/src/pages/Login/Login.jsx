@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import logo from '../../assets/ifba_logo.png';
 import PasswordResetModal from '../../components/PasswordResetModal/PasswordResetModal.jsx';
-import { verificarEmailExiste, autenticar } from '../../services/authService';
+import { verificarEmailExiste, autenticar, obterUsuarioPorEmail } from '../../services/authService';
 
 export default function Login({ onCadastroClick, onLoginSuccess }) {
   const [email, setEmail] = useState('');
@@ -17,8 +17,9 @@ export default function Login({ onCadastroClick, onLoginSuccess }) {
     } else if (!autenticar(email, senha)) {
       setErroLogin('Senha incorreta');
     } else {
+      const usuario = obterUsuarioPorEmail(email);
       setErroLogin('');
-      onLoginSuccess();
+      onLoginSuccess(usuario);
     }
   };
 

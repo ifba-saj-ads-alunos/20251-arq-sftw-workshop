@@ -10,12 +10,15 @@ import VisualizarCertificados from './pages/VisualizarCertificados/VisualizarCer
 
 function App() {
   const [tela, setTela] = useState('login');
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (usuario) => {
+    setUsuarioLogado(usuario);
     setTela('principal');
   };
 
   const handleLogout = () => {
+    setUsuarioLogado(null);
     setTela('login');
   };
 
@@ -34,6 +37,7 @@ function App() {
 
       {tela === 'principal' && (
         <TelaPrincipal
+          usuario={usuarioLogado}
           onLogout={handleLogout}
           onCadastrarEvento={() => setTela('cadastroEvento')}
           onAbrirAdministrador={() => setTela('administrador')}
@@ -43,28 +47,37 @@ function App() {
       )}
 
       {tela === 'cadastroEvento' && (
-        <CadastroEvento onBack={() => setTela('principal')} />
+        <CadastroEvento
+          usuario={usuarioLogado}
+          onBack={() => setTela('principal')}
+        />
       )}
 
       {tela === 'administrador' && (
         <TelaAdministrador
+          usuario={usuarioLogado}
           onVoltar={() => setTela('principal')}
           onAprovarEvento={() => setTela('aprovarEvento')}
         />
       )}
 
       {tela === 'aprovarEvento' && (
-        <TelaAprovarEvento onVoltar={() => setTela('administrador')} />
+        <TelaAprovarEvento
+          usuario={usuarioLogado}
+          onVoltar={() => setTela('administrador')}
+        />
       )}
 
       {tela === 'eventosInscritos' && (
         <EventosInscritos
+          usuario={usuarioLogado}
           onBack={() => setTela('principal')}
           onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}/>
       )}
 
       {tela === 'visualizarCertificados' && (
         <VisualizarCertificados
+          usuario={usuarioLogado}
           onBack={() => setTela('principal')}
           onVisualizarMeusEventos={() => setTela('eventosInscritos')} />
       )}
