@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserEntityMapper implements BaseEntityMapper<User, UserEntity> {
+public final class UserEntityMapper implements BaseEntityMapper<User, UserEntity> {
 
     private final AccessLevelEntityMapper  accessLevelEntityMapper;
     private final UserRoleEntityMapper  userRoleEntityMapper;
@@ -25,21 +25,25 @@ public class UserEntityMapper implements BaseEntityMapper<User, UserEntity> {
                 new Email(entity.getEmail()),
                 userRoleEntityMapper.toDomain(entity.getUserRole()),
                 accessLevelEntityMapper.toDomain(entity.getAccessLevel()),
-                new EncryptedPassword(entity.getPassword())
+                new EncryptedPassword(entity.getPassword()),
+                entity.getLastAccess()
         );
     }
 
     @Override
     public UserEntity toEntity(User domain){
-        var userEntity = new UserEntity(
-                domain.getName(),
-                domain.getEmail().value(),
-                userRoleEntityMapper.toEntity(domain.getUserRole()),
-                accessLevelEntityMapper.toEntity(domain.getAccessLevel()),
-                domain.getPassword().value()
-        );
-        userEntity.setId(domain.getId());
-        return userEntity;
+        return UserEntity.builder()
+                .id(domain.getId())
+                .name(domain.getName())
+                .email(domain.getEmail().value())
+                .userRole(userRoleEntityMapper.toEntity(domain.getUserRole()))
+                .accessLevel(accessLevelEntityMapper.toEntity(domain.getAccessLevel()))
+                .password(domain.getPassword().value())
+                .lastAccess(domain.getLastAccess())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
+                .deleted(domain.getDeleted())
+                .build();
     }
 
 

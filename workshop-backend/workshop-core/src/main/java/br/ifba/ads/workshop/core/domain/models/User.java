@@ -1,10 +1,9 @@
 package br.ifba.ads.workshop.core.domain.models;
 
 import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
+import br.ifba.ads.workshop.core.domain.models.enums.AccessLevelType;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.Email;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.EncryptedPassword;
-
-import java.beans.ConstructorProperties;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -14,6 +13,7 @@ public class User extends AuditableModel {
     private UserRole userRole;
     private AccessLevel accessLevel;
     private EncryptedPassword password;
+    private ZonedDateTime lastAccess;
 
     public User(
             UUID id,
@@ -24,7 +24,8 @@ public class User extends AuditableModel {
             Email email,
             UserRole userRole,
             AccessLevel accessLevel,
-            EncryptedPassword password
+            EncryptedPassword password,
+            ZonedDateTime lastAccess
     ) {
         super(id, createdAt, updatedAt, deleted);
         this.name = name;
@@ -32,6 +33,7 @@ public class User extends AuditableModel {
         this.userRole = userRole;
         this.accessLevel = accessLevel;
         this.password = password;
+        this.lastAccess = lastAccess;
         validateUserData();
     }
 
@@ -40,7 +42,8 @@ public class User extends AuditableModel {
             Email email,
             UserRole userRole,
             AccessLevel accessLevel,
-            EncryptedPassword password
+            EncryptedPassword password,
+            ZonedDateTime lastAccess
     ) {
         super();
         this.name = name;
@@ -48,7 +51,16 @@ public class User extends AuditableModel {
         this.userRole = userRole;
         this.accessLevel = accessLevel;
         this.password = password;
+        this.lastAccess = lastAccess;
         validateUserData();
+    }
+
+    public Boolean isAdmin() {
+        return this.accessLevel.getType().equals(AccessLevelType.ADMIN);
+    }
+
+    public void updateLastAccess() {
+        this.lastAccess = ZonedDateTime.now();
     }
 
 
@@ -57,6 +69,7 @@ public class User extends AuditableModel {
         validateEmail(this.email);
         validateUserRole(this.userRole, this.email);
         validateAccessLevel(this.accessLevel);
+        validateLastAccess(this.lastAccess);
     }
 
     private void validateName(String name) {
@@ -90,6 +103,24 @@ public class User extends AuditableModel {
         }
     }
 
+    private void validateLastAccess(ZonedDateTime lastAccess) {
+        if (this.lastAccess != null && lastAccess == null) {
+            throw new InvalidDataException("Último acesso não pode ser nulo");
+        }
+
+        if (lastAccess == null) {
+            return;
+        }
+
+        if (lastAccess.isAfter(ZonedDateTime.now())) {
+            throw new InvalidDataException("Último acesso não pode ser no futuro");
+        }
+
+        if(this.lastAccess != null && lastAccess.isBefore(this.lastAccess)) {
+            throw new InvalidDataException("Último acesso não pode ser anterior ao acesso anterior");
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -108,5 +139,9 @@ public class User extends AuditableModel {
 
     public EncryptedPassword getPassword() {
         return password;
+    }
+
+    public ZonedDateTime getLastAccess() {
+        return lastAccess;
     }
 }

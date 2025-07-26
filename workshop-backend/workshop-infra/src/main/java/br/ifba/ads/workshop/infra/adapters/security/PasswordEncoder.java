@@ -1,4 +1,4 @@
-package br.ifba.ads.workshop.infra.adapters;
+package br.ifba.ads.workshop.infra.adapters.security;
 
 import br.ifba.ads.workshop.core.application.gateways.PasswordEncoderGateway;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.EncryptedPassword;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class BCryptPasswordEncoderAdapter implements PasswordEncoderGateway {
+public class PasswordEncoder implements PasswordEncoderGateway {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

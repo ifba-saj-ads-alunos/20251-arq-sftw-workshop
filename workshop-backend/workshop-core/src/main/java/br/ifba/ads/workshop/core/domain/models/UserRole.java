@@ -4,7 +4,6 @@ import br.ifba.ads.workshop.core.domain.exception.InternalServerException;
 import br.ifba.ads.workshop.core.domain.models.enums.UserRoleType;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.Email;
 
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class UserRole extends BaseModel {

@@ -7,7 +7,7 @@
     import java.util.function.Supplier;
 
     @Component
-    public class TransactionalManagerAdapter implements TransactionManagerGateway {
+    public class SpringTransactionalManager implements TransactionManagerGateway {
         @Override
         @Transactional
         public <T> T doInTransaction(Supplier<T> action) {

@@ -2,16 +2,24 @@ package br.ifba.ads.workshop.infra.mappers;
 
 import br.ifba.ads.workshop.core.domain.models.UserRole;
 import br.ifba.ads.workshop.infra.persistence.entities.user.UserRoleEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface UserRoleEntityMapper extends BaseEntityMapper<UserRole, UserRoleEntity>{
+@Component
+public final class UserRoleEntityMapper implements BaseEntityMapper<UserRole, UserRoleEntity>{
 
-    UserRole toDomain(UserRoleEntity entity);
+    @Override
+    public UserRole toDomain(UserRoleEntity entity) {
+        return new UserRole(
+                entity.getId(),
+                entity.getType()
+        );
+    }
 
-    @Mapping(target = "deleted",  ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    UserRoleEntity toEntity(UserRole domain);
+    @Override
+    public UserRoleEntity toEntity(UserRole domain) {
+        return new UserRoleEntity(
+                domain.getId(),
+                domain.getType()
+        );
+    }
 }

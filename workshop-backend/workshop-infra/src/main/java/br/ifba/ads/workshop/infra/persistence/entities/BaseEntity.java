@@ -2,8 +2,10 @@ package br.ifba.ads.workshop.infra.persistence.entities;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -12,6 +14,8 @@ import java.util.UUID;
 @MappedSuperclass
 @Getter
 @Setter
+@AllArgsConstructor
+@SuperBuilder
 public abstract class BaseEntity {
 
     @Id

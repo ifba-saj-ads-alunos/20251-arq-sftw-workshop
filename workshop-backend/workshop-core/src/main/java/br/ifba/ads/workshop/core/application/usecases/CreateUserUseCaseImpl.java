@@ -8,7 +8,7 @@ import br.ifba.ads.workshop.core.domain.exception.BusinessException;
 import br.ifba.ads.workshop.core.domain.exception.InternalServerException;
 import br.ifba.ads.workshop.core.domain.service.UserCreationDomainService;
 
-public class CreateUserUseCaseImpl implements CreateUserUseCase {
+public final class CreateUserUseCaseImpl implements CreateUserUseCase {
     private final UserCreationDomainService userCreationDomainService;
     private final PasswordEncoderGateway passwordEncoder;
     private final TransactionManagerGateway transactionManager;

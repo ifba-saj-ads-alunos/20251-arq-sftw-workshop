@@ -1,8 +1,6 @@
 package br.ifba.ads.workshop.web.configs;
 
-import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
-import br.ifba.ads.workshop.core.domain.exception.ResourceAlreadyExistsException;
-import br.ifba.ads.workshop.core.domain.exception.InternalServerException;
+import br.ifba.ads.workshop.core.domain.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +12,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(InvalidDataException.class)
-    private ResponseEntity<RestErrorMessage> handleInvalidDataException(InvalidDataException e) {
+    @ExceptionHandler({InvalidDataException.class, BusinessException.class})
+    private ResponseEntity<RestErrorMessage> handleBadRequestionException (BusinessException e) {
         var response = new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    private ResponseEntity<RestErrorMessage> handleUnauthorizedException(UnauthorizedException e) {
+        var response = new RestErrorMessage(HttpStatus.UNAUTHORIZED, e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     private ResponseEntity<RestErrorMessage> handleResourceAlreadyExistsException(ResourceAlreadyExistsException e) {

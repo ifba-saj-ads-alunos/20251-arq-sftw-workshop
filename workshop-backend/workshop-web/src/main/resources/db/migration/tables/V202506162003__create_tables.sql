@@ -40,12 +40,12 @@ CREATE TABLE users (
     user_role_id BINARY(16) NOT NULL, -- Chave estrangeira para user_roles
     access_level_id BINARY(16) NOT NULL, -- Chave estrangeira para access_levels
     password VARCHAR(255) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
+    last_access DATETIME(6) DEFAULT NULL,
     deleted BOOLEAN DEFAULT FALSE,
     created_at DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6),
     updated_at DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
 
     -- Foreign keys
-    CONSTRAINT fk_users_user_role FOREIGN KEY (user_role_id) REFERENCES user_roles(id),
-    CONSTRAINT fk_users_access_level FOREIGN KEY (access_level_id) REFERENCES access_levels(id)
+    CONSTRAINT fk_users_user_role FOREIGN KEY (user_role_id) REFERENCES user_roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT fk_users_access_level FOREIGN KEY (access_level_id) REFERENCES access_levels(id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );

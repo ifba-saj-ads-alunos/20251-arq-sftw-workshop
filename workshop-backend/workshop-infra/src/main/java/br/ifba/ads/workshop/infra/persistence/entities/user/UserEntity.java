@@ -11,12 +11,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
+@SuperBuilder
 public class UserEntity extends BaseEntity {
     private String name;
     private String email;
@@ -31,8 +35,13 @@ public class UserEntity extends BaseEntity {
 
     private String password;
 
+    private ZonedDateTime lastAccess;
+
     public UserEntity() {
         super();
     }
 
+    public UserEntity(UUID id) {
+        super(id);
+    }
 }

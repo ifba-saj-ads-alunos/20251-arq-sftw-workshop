@@ -12,7 +12,7 @@ import br.ifba.ads.workshop.core.domain.repositories.UserRepository;
 import br.ifba.ads.workshop.core.domain.repositories.UserRoleRepository;
 
 
-public class UserCreationDomainService {
+public final class UserCreationDomainService {
     private final UserRepository repository;
     private final AccessLevelRepository accessLevelRepository;
     private final UserRoleRepository userRoleRepository;
@@ -38,7 +38,7 @@ public class UserCreationDomainService {
         var accessLevel =  accessLevelRepository.findByType(AccessLevelType.USER).orElseThrow(() ->
                 new InternalServerException("The access level with name '" + name + "' does not exist in the database"));
         verifyIfUserExists(email);
-        var newUser = new User(name, email, userRole, accessLevel, encryptedPassword);
+        var newUser = new User(name, email, userRole, accessLevel, encryptedPassword, null);
         repository.saveSafely(newUser);
         return newUser;
     }

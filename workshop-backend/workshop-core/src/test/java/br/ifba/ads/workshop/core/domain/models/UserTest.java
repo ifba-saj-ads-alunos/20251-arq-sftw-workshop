@@ -29,27 +29,54 @@ class UserTest {
 
     @Test
     void shouldThrowExceptionForEmptyName() {
-        assertThrows(InvalidDataException.class, () -> new User("", email, userRole, accessLevel, encryptedPassword));
+        assertThrows(InvalidDataException.class, () -> new User("", email, userRole, accessLevel, encryptedPassword, null));
     }
 
     @Test
     void shouldThrowExceptionForLongName() {
         String longName = "a".repeat(101);
-        assertThrows(InvalidDataException.class, () -> new User(longName, email, userRole, accessLevel, encryptedPassword));
+        assertThrows(InvalidDataException.class, () -> new User(longName, email, userRole, accessLevel, encryptedPassword, null));
     }
 
     @Test
     void shouldThrowExceptionForNullEmail() {
-        assertThrows(InvalidDataException.class, () -> new User("Test", null, userRole, accessLevel, encryptedPassword));
+        assertThrows(InvalidDataException.class, () -> new User("Test", null, userRole, accessLevel, encryptedPassword, null));
     }
 
     @Test
     void shouldThrowExceptionForNullUserRole() {
-        assertThrows(InvalidDataException.class, () -> new User("Test", email, null, accessLevel, encryptedPassword));
+        assertThrows(InvalidDataException.class, () -> new User("Test", email, null, accessLevel, encryptedPassword, null));
     }
 
     @Test
     void shouldThrowExceptionForNullAccessLevel() {
-        assertThrows(InvalidDataException.class, () -> new User("Test", email, userRole, null, encryptedPassword));
+        assertThrows(InvalidDataException.class, () -> new User("Test", email, userRole, null, encryptedPassword, null));
+    }
+
+    @Test
+    void shouldAllowNullLastAccessOnCreation() {
+        assertDoesNotThrow(() -> new User("Test", email, userRole, accessLevel, encryptedPassword, null));
+    }
+
+    @Test
+    void shouldValidateLastAccess() {
+        // Criação com lastAccess nulo (deve permitir)
+        assertDoesNotThrow(() -> new User("Test", email, userRole, accessLevel, encryptedPassword, null));
+
+        // Criação com lastAccess no futuro (deve lançar exceção)
+        ZonedDateTime future = ZonedDateTime.now().plusDays(1);
+        assertThrows(InvalidDataException.class, () ->
+                new User("Test", email, userRole, accessLevel, encryptedPassword, future)
+        );
+
+        // Criação com valor válido (data no passado)
+        ZonedDateTime past = ZonedDateTime.now().minusDays(2);
+        User user = new User("Test", email, userRole, accessLevel, encryptedPassword, past);
+        assertEquals(past, user.getLastAccess());
+
+        // updateLastAccess deve atualizar com ZonedDateTime.now()
+        ZonedDateTime before = ZonedDateTime.now().minusSeconds(1);
+        assertDoesNotThrow(user::updateLastAccess);
+        assertTrue(user.getLastAccess().isAfter(before));
     }
 } 

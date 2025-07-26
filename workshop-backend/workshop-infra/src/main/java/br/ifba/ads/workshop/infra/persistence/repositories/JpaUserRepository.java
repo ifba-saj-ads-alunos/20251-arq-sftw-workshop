@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface JpaUserRepository extends JpaBaseRepository<UserEntity> {
     Optional<UserEntity> findByEmailAndDeletedIsFalse(String email);
+    Optional<UserEntity> findByEmailAndPasswordAndDeletedIsFalse(String email, String password);
 }

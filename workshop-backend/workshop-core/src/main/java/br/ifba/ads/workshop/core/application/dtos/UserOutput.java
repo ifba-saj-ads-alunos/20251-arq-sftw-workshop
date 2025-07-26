@@ -14,7 +14,8 @@ public record UserOutput(
         UserRoleType userRole,
         AccessLevelType accessLevel,
         ZonedDateTime createdAt,
-        ZonedDateTime updatedAt
+        ZonedDateTime updatedAt,
+        ZonedDateTime lastAccess
 )
 {
    public static UserOutput fromUser(User user) {
@@ -25,7 +26,8 @@ public record UserOutput(
                user.getUserRole().getType(),
                user.getAccessLevel().getType(),
                user.getCreatedAt(),
-               user.getUpdatedAt()
+               user.getUpdatedAt(),
+                user.getLastAccess()
        );
    }
 }

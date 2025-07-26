@@ -57,4 +57,5 @@ public abstract class AuditableModel extends BaseModel {
     public Boolean getDeleted() {
         return deleted;
     }
+
 }

@@ -46,7 +46,7 @@ class CreateUserUseCaseImplTest {
         encryptedPassword = new EncryptedPassword("$2a$12$m/q4H5FU2CCQ34ggdanrWOcPJX1iQRPs.B9VcZynoYO8W3P5oX1/u");
         command = new CreateUserCommand("Test User", email, new br.ifba.ads.workshop.core.domain.models.valueObjects.Password("password123"), UserRoleType.STUDENT);
         user = mock(User.class);
-        userOutput = new UserOutput(UUID.randomUUID(),"Test User", email.value(), UserRoleType.STUDENT, AccessLevelType.USER, null, null);
+        userOutput = new UserOutput(UUID.randomUUID(),"Test User", email.value(), UserRoleType.STUDENT, AccessLevelType.USER, null, null, null);
     }
 
     private void mockTransactionManager() {
