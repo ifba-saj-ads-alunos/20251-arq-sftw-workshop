@@ -1,4 +1,3 @@
-````markdown
 # 🎓 Sistema de Ranking de Apresentações – WEP IFBA
 
 Este projeto implementa uma API web utilizando *FastAPI* que gerencia apresentações avaliadas por votos e gera um *ranking inteligente*, com análise de aceitação baseada em clustering com *KMeans*.
