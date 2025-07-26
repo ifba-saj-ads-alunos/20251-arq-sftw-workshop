@@ -1,0 +1,16 @@
+# Web API
+fastapi==0.110.1
+uvicorn[standard]==0.29.0
+
+# Banco de dados
+sqlalchemy==2.0.30
+psycopg2-binary==2.9.9   # Driver PostgreSQL
+pymysql==1.1.0           # Driver MySQL
+
+# Machine Learning e DataFrame
+scikit-learn==1.4.2
+pandas==2.2.2
+joblib==1.4.2            # (Atualizações futuras para modelos treinados)
+
+# Validação de entrada
+pydantic==2.7.1
