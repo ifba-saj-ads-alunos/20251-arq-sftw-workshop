@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import './CadastroUsuario.css';
 import logo from '../../assets/ifba_logo.png';
+import userService from '../../services/userService';
+import { useSnackbar } from '../../components/Snackbar/SnackbarContext';
 
 export default function CadastroUsuario({ onBack }) {
+  const { showSuccess, showError } = useSnackbar();
+  
   const [formData, setFormData] = useState({
     nome: '',
-    cpf: '',
     email: '',
-    tipo: 'Discente',
     senha: '',
-    pcd: 'nao',
-    tipoDeficiencia: '',
-    acessibilidade: ''
+    tipo: 'Estudante'
   });
 
-  const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -25,25 +24,70 @@ export default function CadastroUsuario({ onBack }) {
     }));
   };
 
+  const mapTipoToUserRole = (tipo) => {
+    const mapping = {
+      'Estudante': 'STUDENT',
+      'Funcionário': 'EMPLOYEE',
+      'Professor': 'TEACHER',
+      'Visitante': 'VISITOR'
+    };
+    return mapping[tipo] || 'STUDENT';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setStatus('');
+
+    if (!formData.nome || !formData.email || !formData.senha) {
+      showError('Por favor, preencha todos os campos obrigatórios.');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.senha.length < 6) {
+      showError('A senha deve ter pelo menos 6 caracteres.');
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch('/api/v1/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      const userData = {
+        name: formData.nome,
+        email: formData.email,
+        password: formData.senha,
+        userRole: mapTipoToUserRole(formData.tipo)
+      };
 
-      if (response.ok) {
-        setStatus('Usuário cadastrado com sucesso!');
+      await userService.createUser(userData);
+      showSuccess('Usuário cadastrado com sucesso!');
+      
+      setFormData({
+        nome: '',
+        email: '',
+        senha: '',
+        tipo: 'Estudante'
+      });
+      
+      setTimeout(() => {
+        onBack();
+      }, 2000);
+      
+    } catch (error) {
+      if (error.response) {
+        const { status, data } = error.response;
+        
+        if (status === 400) {
+          showError(data.message || 'Dados inválidos. Verifique os campos e tente novamente.');
+        } else if (status === 409) {
+          showError('Este email já está em uso. Tente com outro email.');
+        } else {
+          showError('Erro no servidor. Tente novamente mais tarde.');
+        }
+      } else if (error.request) {
+        showError('Erro de conexão. Verifique sua internet e tente novamente.');
       } else {
-        setStatus('Erro ao cadastrar usuário.');
+        showError('Erro inesperado. Tente novamente.');
       }
-    } catch (err) {
-      setStatus('Erro ao conectar com o servidor.');
     }
 
     setLoading(false);
@@ -55,87 +99,50 @@ export default function CadastroUsuario({ onBack }) {
       <form onSubmit={handleSubmit} className="cadastro-form">
         <label className='cadastro-usuario'>
           Nome:
-          <input type="text" name="nome" value={formData.nome} onChange={handleChange} className='cadastro-usuario'/>
-        </label>
-
-        <label className='cadastro-usuario'>
-          CPF:
-          <input type="text" name="cpf" value={formData.cpf} onChange={handleChange} className='cadastro-usuario' />
+          <input 
+            type="text" 
+            name="nome" 
+            value={formData.nome} 
+            onChange={handleChange} 
+            className='cadastro-usuario'
+            required
+          />
         </label>
 
         <label className='cadastro-usuario'>
           Email:
-          <input type="email" name="email" value={formData.email} onChange={handleChange} className='cadastro-usuario' />
+          <input 
+            type="email" 
+            name="email" 
+            value={formData.email} 
+            onChange={handleChange} 
+            className='cadastro-usuario'
+            required
+          />
         </label>
 
         <label className='cadastro-usuario'>
           Perfil:
           <select name="tipo" value={formData.tipo} onChange={handleChange} className='cadastro-usuario'>
-            <option value="Discente">Discente</option>
-            <option value="Docente">Docente</option>
-            <option value="Externo">Externo</option>
+            <option value="Estudante">Estudante</option>
+            <option value="Funcionário">Funcionário</option>
+            <option value="Professor">Professor</option>
+            <option value="Visitante">Visitante</option>
           </select>
         </label>
 
         <label className='cadastro-usuario'>
           Senha:
-          <input type="password" name="senha" value={formData.senha} onChange={handleChange} className='cadastro-usuario'/>
+          <input 
+            type="password" 
+            name="senha" 
+            value={formData.senha} 
+            onChange={handleChange} 
+            className='cadastro-usuario'
+            minLength="6"
+            required
+          />
         </label>
-
-        <label className='cadastro-usuario'>Pessoa com deficiência?</label>
-        <div className="radio-group  cadastro-usuario">
-          <label>
-            <input
-              type="radio"
-              name="pcd"
-              value="nao"
-              checked={formData.pcd === 'nao'}
-              onChange={handleChange}
-            />
-            Não
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="pcd"
-              value="sim"
-              checked={formData.pcd === 'sim'}
-              onChange={handleChange}
-            />
-            Sim
-          </label>
-        </div>
-
-        {formData.pcd === 'sim' && (
-          <>
-            <label className='cadastro-usuario'>
-              Tipo:
-              <select
-                name="tipoDeficiencia"
-                value={formData.tipoDeficiencia}
-                onChange={handleChange} className='cadastro-usuario'
-              >
-                <option value="">Selecione</option>
-                <option value="Deficiência Física">Deficiência Física</option>
-                <option value="Deficiência Visual">Deficiência Visual</option>
-                <option value="Deficiência Auditiva">Deficiência Auditiva</option>
-                <option value="Deficiência Mental">Deficiência Mental</option>
-                <option value="Neurodivergência">Neurodivergência</option>
-              </select>
-            </label>
-
-            <label className='cadastro-usuario'>
-              Solicitação para Acessibilidade:
-              <textarea
-                name="acessibilidade"
-                value={formData.acessibilidade}
-                onChange={handleChange}
-                placeholder="Digite aqui como podemos garantir que sua necessidade seja atendida..."
-                className='cadastro-usuario'
-              ></textarea>
-            </label>
-          </>
-        )}
 
         <button type="submit" className="cadastro-btn cadastro-usuario" disabled={loading}>
           {loading ? 'Cadastrando...' : 'Cadastrar'}
@@ -145,8 +152,6 @@ export default function CadastroUsuario({ onBack }) {
           Voltar
         </button>
       </form>
-
-      {status && <p className="mensagem">{status}</p>}
     </div>
   );
 }
