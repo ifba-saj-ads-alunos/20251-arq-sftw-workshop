@@ -1,15 +1,27 @@
-import usuariosMock from '../mocks/usuariosMock';
+import httpFactory from './httpFactory';
 
-export function verificarEmailExiste(email) {
-  return usuariosMock.some(usuario => usuario.email === email);
+export async function verificarEmailExiste(email) {
+  try {
+    const response = await httpFactory.get(`/api/v1/users/check-email?email=${email}`);
+    return response.data.exists;
+  } catch {
+    return false;
+  }
 }
 
-export function autenticar(email, senha) {
-  return usuariosMock.some(usuario => usuario.email === email && usuario.senha === senha);
+export async function autenticar(email, senha) {
+  const response = await httpFactory.post('/api/v1/auth/login', {
+    email,
+    password: senha
+  });
+  return response.data;
 }
 
-export function obterUsuarioPorEmail(email) {
-  return usuariosMock.find(usuario => usuario.email === email);
+export async function obterUsuarioPorEmail(email) {
+  try {
+    const response = await httpFactory.get(`/api/v1/users/by-email?email=${email}`);
+    return response.data;
+  } catch {
+    return null;
+  }
 }
-
-// este arquivo simula um banco e oferece funções reutilizáveis para autenticação e verificação de email.

@@ -38,10 +38,8 @@ export default function TelaAprovarEvento({ onVoltar }) {
       return;
     }
 
-    console.log('Evento enviado para processamento:', evento);
     alert(`Evento ${evento.aprovado ? 'aprovado' : 'reprovado'} com sucesso!`);
 
-    // Remover da lista
     setEventosParaAprovar(prev => prev.filter(e => e.id !== evento.id));
   };
 
