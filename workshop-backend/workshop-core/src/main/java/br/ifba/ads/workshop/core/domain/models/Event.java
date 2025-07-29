@@ -1,21 +1,33 @@
 package br.ifba.ads.workshop.core.domain.models;
 
-@Entity
-public class Event {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
+public class Event extends AuditableModel {
     private String name;
     private String description;
     private String date;
     private String location;
+
+    public Event(String date, String description, String location, String name) {
+        this.date = date;
+        this.description = description;
+        this.location = location;
+        this.name = name;
+    }
+
+    public Event(UUID id, ZonedDateTime createdAt, ZonedDateTime updatedAt, Boolean deleted, String date, String description, String location, String name) {
+        super(id, createdAt, updatedAt, deleted);
+        this.date = date;
+        this.description = description;
+        this.location = location;
+        this.name = name;
+    }
     
-    public Long getId() {
-        return id;
+    public Event(UUID id, ZonedDateTime createdAt, ZonedDateTime updatedAt, Boolean deleted) {
+        super(id, createdAt, updatedAt, deleted);
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public String getName() {
         return name;
     }
@@ -40,6 +52,7 @@ public class Event {
     public void setLocation(String location) {
         this.location = location;
     }
-
+    
     
 }
+     
