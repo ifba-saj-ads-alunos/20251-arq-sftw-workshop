@@ -63,7 +63,11 @@ public class EventController {
     }
 
     private ZonedDateTime toEndZdt(String yyyyMMdd) {
-        final var d = LocalDate.parse(yyyyMMdd);
-        return d.atTime(23, 59, 59).atZone(ZoneOffset.UTC);
+        try {
+            final var d = LocalDate.parse(yyyyMMdd);
+            return d.atTime(23, 59, 59).atZone(ZoneOffset.UTC);
+        } catch (java.time.format.DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format for 'dataFim': '" + yyyyMMdd + "'. Expected format: yyyy-MM-dd.", e);
+        }
     }
 }
