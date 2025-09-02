@@ -92,11 +92,25 @@ public final class Event extends AuditableModel {
         if (modality == null) {
             throw new InvalidDataException("Modalidade é obrigatória");
         }
-        if (modality == EventModality.ONLINE && (remoteLink == null || remoteLink.isBlank())) {
-            throw new InvalidDataException("Link é obrigatório para eventos online");
-        }
-        if (modality == EventModality.PRESENCIAL && (location == null || location.isBlank())) {
-            throw new InvalidDataException("Local é obrigatório para eventos presenciais");
+        validateModalitySpecificFields();
+    }
+
+    private void validateModalitySpecificFields() {
+        switch (modality) {
+            case ONLINE:
+                if (remoteLink == null || remoteLink.isBlank()) {
+                    throw new InvalidDataException("Link é obrigatório para eventos online");
+                }
+                break;
+            case PRESENCIAL:
+                if (location == null || location.isBlank()) {
+                    throw new InvalidDataException("Local é obrigatório para eventos presenciais");
+                }
+                break;
+            // Add more cases here for future modalities
+            default:
+                // No specific validation for other modalities
+                break;
         }
     }
 
