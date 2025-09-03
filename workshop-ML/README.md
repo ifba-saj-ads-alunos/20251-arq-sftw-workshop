@@ -56,6 +56,7 @@ Calcula o ranking das apresentações com base nos votos, retornando uma lista c
     "palavras_chave": ["apresentacao", "x"],
     "predito_bem_aceito": true
   }
-]```
+]
+
 
 
