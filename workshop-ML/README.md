@@ -2,8 +2,6 @@
 
 Este projeto implementa uma **API web** utilizando **FastAPI** que gerencia apresentações avaliadas por votos e gera um **ranking inteligente**, com análise de aceitação baseada em **KMeans** e predição de apresentações bem aceitas.
 
----
-
 ## 🚀 Funcionalidades
 
 - Cadastro de apresentações e votos (armazenados no banco).
@@ -17,8 +15,6 @@ Este projeto implementa uma **API web** utilizando **FastAPI** que gerencia apre
 - Endpoint `/debug` que retorna todos os votos no banco (para depuração).
 - Suporte a vários bancos de dados e fallback automático para **SQLite**.
 
----
-
 ## 🛠️ Tecnologias Usadas
 
 - **FastAPI** – framework para criação de APIs.
@@ -28,8 +24,6 @@ Este projeto implementa uma **API web** utilizando **FastAPI** que gerencia apre
 - **NumPy** – operações numéricas.
 - **scikit-learn** – aprendizado de máquina (KMeans e RandomForest).
 - **Uvicorn** – servidor ASGI para rodar a API.
-
----
 
 ## 📄 Endpoints da API
 
@@ -62,18 +56,17 @@ Exemplo de resposta:
     "palavras_chave": ["apresentacao", "x"],
     "predito_bem_aceito": true
   }
-]
+]```
 GET /ranking/predicao
 Retorna apenas o nome das apresentações e a previsão de boa aceitação:
 
-json
-Copiar código
 [
   {
     "nome": "Apresentação X",
     "predito_bem_aceito": true
   }
 ]
+
 GET /debug
 Retorna todos os votos cadastrados no banco, para fins de teste e depuração.
 
@@ -136,4 +129,5 @@ pandas
 scikit-learn
 
 numpy
+
 
