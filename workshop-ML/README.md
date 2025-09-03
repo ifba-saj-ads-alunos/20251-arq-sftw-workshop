@@ -1,70 +1,55 @@
-🎓 Sistema de Ranking de Apresentações – WEP IFBA
+# 🎓 Sistema de Ranking de Apresentações – WEP IFBA
 
-Este projeto implementa uma API web utilizando FastAPI que gerencia apresentações avaliadas por votos e gera um ranking inteligente, com análise de aceitação baseada em clustering com KMeans e predição de apresentações bem aceitas.
+Este projeto implementa uma **API web** utilizando **FastAPI** que gerencia apresentações avaliadas por votos e gera um **ranking inteligente**, com análise de aceitação baseada em **KMeans** e predição de apresentações bem aceitas.
 
-🚀 Funcionalidades
+---
 
-Cadastro de apresentações e votos (armazenados no banco).
+## 🚀 Funcionalidades
 
-Endpoint /ranking que:
+- Cadastro de apresentações e votos (armazenados no banco).
+- Endpoint `/ranking` que:
+  - Agrupa dados por apresentação.
+  - Calcula média de votos e taxa de participação.
+  - Usa **KMeans** para identificar a aceitação (baixa, média ou alta).
+  - Extrai palavras-chave do título da apresentação.
+  - Prediz se a apresentação será bem aceita usando **RandomForest**.
+- Endpoint `/ranking/predicao` que retorna apenas o nome das apresentações e o resultado da predição.
+- Endpoint `/debug` que retorna todos os votos no banco (para depuração).
+- Suporte a vários bancos de dados e fallback automático para **SQLite**.
 
-Agrupa dados por apresentação.
+---
 
-Calcula média de votos e taxa de participação.
+## 🛠️ Tecnologias Usadas
 
-Usa KMeans para identificar a aceitação (baixa, média ou alta).
+- **FastAPI** – framework para criação de APIs.
+- **SQLAlchemy** – ORM e SQL Toolkit.
+- **SQLite / PostgreSQL** – banco de dados.
+- **Pandas** – análise de dados.
+- **NumPy** – operações numéricas.
+- **scikit-learn** – aprendizado de máquina (KMeans e RandomForest).
+- **Uvicorn** – servidor ASGI para rodar a API.
 
-Extrai palavras-chave do título da apresentação.
+---
 
-Prediz se a apresentação será bem aceita usando RandomForest.
+## 📄 Endpoints da API
 
-Endpoint /ranking/predicao que retorna apenas o nome das apresentações e o resultado da predição.
-
-Endpoint /debug que retorna todos os votos no banco (para depuração).
-
-Suporte a vários bancos de dados e fallback automático para SQLite.
-
-🛠️ Tecnologias Usadas
-
-[FastAPI] - framework para criação de APIs.
-
-[SQLAlchemy] — ORM e SQL Toolkit.
-
-[SQLite / PostgreSQL] — banco de dados.
-
-[Pandas] — análise de dados.
-
-[NumPy] — operações numéricas.
-
-[scikit-learn] — aprendizado de máquina (KMeans e RandomForest).
-
-[Uvicorn] — servidor ASGI para rodar a API.
-
-📄 Endpoints da API
-GET /ranking
+### `GET /ranking`
 
 Calcula o ranking das apresentações com base nos votos, retornando uma lista com:
 
-nome: título da apresentação
-
-inscritos: número de inscritos
-
-votantes: número de votos recebidos
-
-media_estrelas: média das notas
-
-taxa_participacao: votantes / inscritos
-
-posicao: ranking
-
-aceitacao: baixa, média ou alta
-
-palavras_chave: palavras-chave extraídas do título
-
-predito_bem_aceito: true ou false indicando se o modelo prevê boa aceitação
+- `nome`: título da apresentação
+- `inscritos`: número de inscritos
+- `votantes`: número de votos recebidos
+- `media_estrelas`: média das notas
+- `taxa_participacao`: votantes / inscritos
+- `posicao`: ranking
+- `aceitacao`: baixa, média ou alta
+- `palavras_chave`: palavras-chave extraídas do título
+- `predito_bem_aceito`: `true` ou `false` indicando se o modelo prevê boa aceitação
 
 Exemplo de resposta:
 
+```json
 [
   {
     "nome": "Apresentação X",
@@ -78,24 +63,21 @@ Exemplo de resposta:
     "predito_bem_aceito": true
   }
 ]
-
 GET /ranking/predicao
-
 Retorna apenas o nome das apresentações e a previsão de boa aceitação:
 
+json
+Copiar código
 [
   {
     "nome": "Apresentação X",
     "predito_bem_aceito": true
   }
 ]
-
 GET /debug
-
 Retorna todos os votos cadastrados no banco, para fins de teste e depuração.
 
 🧠 Lógica do Ranking
-
 Join entre apresentacoes e votos usando SQLAlchemy.
 
 Cálculo de média de estrelas e taxa de participação (votantes / inscritos).
@@ -115,8 +97,7 @@ Extração de palavras-chave do título da apresentação.
 Treinamento de modelo RandomForest para predição de boas apresentações.
 
 🗃️ Banco de Dados
-Tabelas utilizadas:
-
+Tabelas utilizadas
 apresentacoes:
 
 id (PK)
@@ -133,19 +114,16 @@ apresentacao_id (FK → apresentacoes.id)
 
 nota_geral: nota dada por um votante
 
-Inicialização automática (SQLite):
-
+Inicialização automática (SQLite)
 Se o banco estiver vazio, será utilizado fallback.db.
 
 🔄 Fallback para SQLite
-
 Caso nenhum banco de dados esteja disponível, será utilizado automaticamente um banco local SQLite chamado fallback.db.
 
 ✅ Requisitos
-
 Python 3.9+
 
-Pacotes listados em requirements.txt, incluindo:
+Pacotes listados em requirements.txt:
 
 fastapi
 
@@ -158,3 +136,4 @@ pandas
 scikit-learn
 
 numpy
+
