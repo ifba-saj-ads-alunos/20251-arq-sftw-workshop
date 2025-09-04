@@ -7,7 +7,7 @@ export async function createEvent(payload) {
     categoria: payload.categoria,
     dataInicio: payload.dataInicio,
     dataFim: payload.dataFim,
-    vagas: String(payload.vagas ?? ''),
+    vagas: payload.vagas != null ? String(payload.vagas) : null,
     palestrante: payload.palestrante,
     curriculo: payload.curriculo,
     localidade: payload.localidade,
