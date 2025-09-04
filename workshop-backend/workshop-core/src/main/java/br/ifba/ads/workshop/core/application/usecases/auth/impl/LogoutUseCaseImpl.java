@@ -37,7 +37,7 @@ public final class LogoutUseCaseImpl implements LogoutUseCase {
                 if (!session.getUserId().equals(user.getId())) {
                     throw new BusinessException("Sessão não pertence ao usuário");
                 }
-                session.desactive();
+                session.deactivate();
                 sessionRepository.delete(session);
             });
         } catch (BusinessException e) {
