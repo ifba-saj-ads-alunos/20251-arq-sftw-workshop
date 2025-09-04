@@ -4,9 +4,12 @@ import br.ifba.ads.workshop.core.application.dtos.CreateEventCommand;
 import br.ifba.ads.workshop.core.application.dtos.EventOutput;
 import br.ifba.ads.workshop.core.application.usecases.CreateEventUseCase;
 import br.ifba.ads.workshop.core.domain.models.enums.EventModality;
+import br.ifba.ads.workshop.web.configs.TokenMainInfo;
 import br.ifba.ads.workshop.web.dtos.CreateEventRequestDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -15,7 +18,7 @@ import java.time.ZonedDateTime;
 
 @RestController
 @RequestMapping("api/v1/events")
-public class EventController {
+public class EventController extends BaseController {
 
     private final CreateEventUseCase createEventUseCase;
 
@@ -24,7 +27,9 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<EventOutput> create(@RequestBody CreateEventRequestDto dto) {
+    public ResponseEntity<EventOutput> create(@Valid @RequestBody CreateEventRequestDto dto,
+                                              @AuthenticationPrincipal TokenMainInfo principal) {
+        verifyIfUserIsAdmin(principal);
         final var command = new CreateEventCommand(
                 dto.titulo(),
                 dto.descricao(),
