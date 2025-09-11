@@ -53,7 +53,7 @@ public class Session extends AuditableModel {
         this.active = active;
     }
 
-    public void desactive() {
+    public void deactivate() {
         this.active = false;
     }
 

@@ -26,7 +26,7 @@ public class SecurityConfig {
     }
 
     private final String[] adminAuth = {
-
+            "/api/v1/events/**"
     };
 
     private final String[] ignoreAuth = {

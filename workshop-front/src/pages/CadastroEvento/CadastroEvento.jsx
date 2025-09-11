@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './CadastroEvento.css';
 import logo from '../../assets/ifba_logo.png';
+import { createEvent } from '../../services/eventService';
 
 export default function CadastroEvento({ onBack }) {
   const [formData, setFormData] = useState({
@@ -27,26 +28,51 @@ export default function CadastroEvento({ onBack }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatus('');
-
-    setTimeout(() => {
-      if (formData.titulo && formData.descricao && formData.dataInicio && formData.dataFim && formData.vagas && formData.palestrante && formData.curriculo) {
-        // Verificação adicional dos campos condicionais
-        if (formData.localidade === 'Remota' && !formData.link) {
-          setStatus('Erro: informe o link do evento remoto.');
-        } else if (formData.localidade === 'Presencial' && !formData.sala) {
-          setStatus('Erro: selecione a sala para o evento presencial.');
-        } else {
-          setStatus('Evento cadastrado e aguardando aprovação.');
-        }
-      } else {
-        setStatus('Erro: preencha todos os campos corretamente.');
+    try {
+      if (!formData.titulo || !formData.descricao || !formData.dataInicio || !formData.dataFim) {
+        setStatus('Erro: preencha os campos obrigatórios.');
+        setLoading(false);
+        return;
       }
+      if (formData.localidade === 'Remota' && !formData.link) {
+        setStatus('Erro: informe o link do evento remoto.');
+        setLoading(false);
+        return;
+      }
+      if (formData.localidade === 'Presencial' && !formData.sala) {
+        setStatus('Erro: selecione a sala para o evento presencial.');
+        setLoading(false);
+        return;
+      }
+
+      await createEvent(formData);
+      setStatus('Evento cadastrado e aguardando aprovação.');
+      setFormData({
+        titulo: '',
+        descricao: '',
+        categoria: 'Palestra',
+        dataInicio: '',
+        dataFim: '',
+        vagas: '',
+        palestrante: '',
+        curriculo: '',
+        localidade: 'Remota',
+        link: '',
+        sala: '',
+      });
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setStatus(`Erro: ${err.response.data.message}`);
+      } else {
+        setStatus('Erro ao cadastrar evento.');
+      }
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -163,7 +189,6 @@ export default function CadastroEvento({ onBack }) {
           </select>
         </label>
 
-        {/* Campo Condicional para Link */}
         {formData.localidade === 'Remota' && (
           <label>
             Link do Evento:
@@ -178,7 +203,6 @@ export default function CadastroEvento({ onBack }) {
           </label>
         )}
 
-        {/* Campo Condicional para Sala */}
         {formData.localidade === 'Presencial' && (
           <label>
             Sala:
@@ -192,7 +216,6 @@ export default function CadastroEvento({ onBack }) {
               <option value="Sala 101">Sala 101</option>
               <option value="Sala 102">Sala 102</option>
               <option value="Auditório">Auditório</option>
-              {/* Futuramente populado dinamicamente */}
             </select>
           </label>
         )}
@@ -210,3 +233,4 @@ export default function CadastroEvento({ onBack }) {
     </div>
   );
 }
+

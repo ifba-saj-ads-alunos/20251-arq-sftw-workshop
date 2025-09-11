@@ -1,0 +1,17 @@
+CREATE TABLE events (
+    id BINARY(16) PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    starts_at DATETIME(6) NOT NULL,
+    ends_at DATETIME(6) NOT NULL,
+    vacancies INT NULL,
+    modality VARCHAR(20) NOT NULL, -- ONLINE | PRESENCIAL | HIBRIDO
+    status VARCHAR(20) NOT NULL,   -- DRAFT | PUBLISHED | CLOSED | CANCELLED
+    location VARCHAR(100) NULL,
+    remote_link VARCHAR(255) NULL,
+    category VARCHAR(100) NULL,
+    deleted BOOLEAN DEFAULT FALSE,
+    created_at DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+);
+

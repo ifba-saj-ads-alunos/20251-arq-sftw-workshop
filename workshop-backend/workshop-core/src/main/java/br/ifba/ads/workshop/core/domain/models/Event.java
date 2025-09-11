@@ -1,58 +1,130 @@
 package br.ifba.ads.workshop.core.domain.models;
 
+import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
+import br.ifba.ads.workshop.core.domain.models.enums.EventModality;
+import br.ifba.ads.workshop.core.domain.models.enums.EventStatus;
+
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
-public class Event extends AuditableModel {
-    private String name;
+public final class Event extends AuditableModel {
+    private String title;
     private String description;
-    private String date;
-    private String location;
+    private ZonedDateTime startsAt;
+    private ZonedDateTime endsAt;
+    private Integer vacancies;
+    private EventModality modality;
+    private EventStatus status;
+    private String location;      
+    private String remoteLink;
+    private String category;
 
-    public Event(String date, String description, String location, String name) {
-        this.date = date;
+    public Event(
+            String title,
+            String description,
+            ZonedDateTime startsAt,
+            ZonedDateTime endsAt,
+            Integer vacancies,
+            EventModality modality,
+            String location,
+            String remoteLink,
+            String category
+    ) {
+        super();
+        this.title = title;
         this.description = description;
+        this.startsAt = startsAt;
+        this.endsAt = endsAt;
+        this.vacancies = vacancies;
+        this.modality = modality;
+        this.status = EventStatus.DRAFT;
         this.location = location;
-        this.name = name;
+        this.remoteLink = remoteLink;
+        this.category = category;
+        validate();
     }
 
-    public Event(UUID id, ZonedDateTime createdAt, ZonedDateTime updatedAt, Boolean deleted, String date, String description, String location, String name) {
+    public Event(
+            java.util.UUID id,
+            java.time.ZonedDateTime createdAt,
+            java.time.ZonedDateTime updatedAt,
+            boolean deleted,
+            String title,
+            String description,
+            ZonedDateTime startsAt,
+            ZonedDateTime endsAt,
+            Integer vacancies,
+            EventModality modality,
+            EventStatus status,
+            String location,
+            String remoteLink,
+            String category
+    ) {
         super(id, createdAt, updatedAt, deleted);
-        this.date = date;
+        this.title = title;
         this.description = description;
+        this.startsAt = startsAt;
+        this.endsAt = endsAt;
+        this.vacancies = vacancies;
+        this.modality = modality;
+        this.status = status;
         this.location = location;
-        this.name = name;
-    }
-    
-    public Event(UUID id, ZonedDateTime createdAt, ZonedDateTime updatedAt, Boolean deleted) {
-        super(id, createdAt, updatedAt, deleted);
+        this.remoteLink = remoteLink;
+        this.category = category;
+        validate();
     }
 
-    public String getName() {
-        return name;
+    private void validate() {
+        if (title == null || title.isBlank()) {
+            throw new InvalidDataException("Título do evento não pode ser vazio");
+        }
+        if (title.length() > 100) {
+            throw new InvalidDataException("Título não pode exceder 100 caracteres");
+        }
+        if (startsAt == null || endsAt == null) {
+            throw new InvalidDataException("Datas de início e fim são obrigatórias");
+        }
+        if (!startsAt.isBefore(endsAt)) {
+            throw new InvalidDataException("Data de início deve ser anterior à data de fim");
+        }
+        if (vacancies != null && vacancies < 0) {
+            throw new InvalidDataException("Vagas não pode ser negativo");
+        }
+        if (modality == null) {
+            throw new InvalidDataException("Modalidade é obrigatória");
+        }
+        validateModalitySpecificFields();
     }
-    public void setName(String name) {
-        this.name = name;
+
+    private void validateModalitySpecificFields() {
+        switch (modality) {
+            case ONLINE:
+                if (remoteLink == null || remoteLink.isBlank()) {
+                    throw new InvalidDataException("Link é obrigatório para eventos online");
+                }
+                break;
+            case PRESENCIAL:
+                if (location == null || location.isBlank()) {
+                    throw new InvalidDataException("Local é obrigatório para eventos presenciais");
+                }
+                break;
+            // Add more cases here for future modalities
+            default:
+                // No specific validation for other modalities
+                break;
+        }
     }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getDate() {
-        return date;
-    }
-    public void setDate(String date) {
-        this.date = date;
-    }
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
-    }
-    
-    
+
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public ZonedDateTime getStartsAt() { return startsAt; }
+    public ZonedDateTime getEndsAt() { return endsAt; }
+    public Integer getVacancies() { return vacancies; }
+    public EventModality getModality() { return modality; }
+    public EventStatus getStatus() { return status; }
+    public String getLocation() { return location; }
+    public String getRemoteLink() { return remoteLink; }
+    public String getCategory() { return category; }
+
+    public void setStatus(EventStatus status) { this.status = status; }
 }
      
