@@ -14,9 +14,9 @@ public final class Event extends AuditableModel {
     private Integer vacancies;
     private EventModality modality;
     private EventStatus status;
-    private String location;      // e.g., room name for PRESENCIAL
-    private String remoteLink;    // e.g., meet/zoom link for ONLINE
-    private String category;      // free text from UI
+    private String location;      
+    private String remoteLink;
+    private String category;
 
     public Event(
             String title,
@@ -127,3 +127,4 @@ public final class Event extends AuditableModel {
 
     public void setStatus(EventStatus status) { this.status = status; }
 }
+     
