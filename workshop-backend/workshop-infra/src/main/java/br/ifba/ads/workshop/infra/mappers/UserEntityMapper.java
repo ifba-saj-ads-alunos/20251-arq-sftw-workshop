@@ -1,11 +1,12 @@
 package br.ifba.ads.workshop.infra.mappers;
 
+import org.springframework.stereotype.Component;
+
+import br.ifba.ads.workshop.core.domain.models.User;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.Email;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.EncryptedPassword;
 import br.ifba.ads.workshop.infra.persistence.entities.user.UserEntity;
-import br.ifba.ads.workshop.core.domain.models.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public final class UserEntityMapper implements BaseEntityMapper<User, UserEntity
                 entity.getUpdatedAt(),
                 entity.isDeleted(),
                 entity.getName(),
+                entity.getCpf(),
                 new Email(entity.getEmail()),
                 userRoleEntityMapper.toDomain(entity.getUserRole()),
                 accessLevelEntityMapper.toDomain(entity.getAccessLevel()),
@@ -35,6 +37,7 @@ public final class UserEntityMapper implements BaseEntityMapper<User, UserEntity
         return UserEntity.builder()
                 .id(domain.getId())
                 .name(domain.getName())
+                .cpf(domain.getCpf())
                 .email(domain.getEmail().value())
                 .userRole(userRoleEntityMapper.toEntity(domain.getUserRole()))
                 .accessLevel(accessLevelEntityMapper.toEntity(domain.getAccessLevel()))

@@ -1,7 +1,7 @@
 package br.ifba.ads.workshop.core.domain.service;
 
-import br.ifba.ads.workshop.core.domain.exception.ResourceAlreadyExistsException;
 import br.ifba.ads.workshop.core.domain.exception.InternalServerException;
+import br.ifba.ads.workshop.core.domain.exception.ResourceAlreadyExistsException;
 import br.ifba.ads.workshop.core.domain.models.User;
 import br.ifba.ads.workshop.core.domain.models.enums.AccessLevelType;
 import br.ifba.ads.workshop.core.domain.models.enums.UserRoleType;
@@ -29,6 +29,7 @@ public final class UserCreationDomainService {
 
     public User createNewUser(
             String name,
+            String cpf,
             Email email,
             EncryptedPassword encryptedPassword,
             UserRoleType userRoleType
@@ -38,7 +39,7 @@ public final class UserCreationDomainService {
         var accessLevel =  accessLevelRepository.findByType(AccessLevelType.USER).orElseThrow(() ->
                 new InternalServerException("The access level with name '" + name + "' does not exist in the database"));
         verifyIfUserExists(email);
-        var newUser = new User(name, email, userRole, accessLevel, encryptedPassword, null);
+    var newUser = new User(name, cpf, email, userRole, accessLevel, encryptedPassword, null);
         repository.saveSafely(newUser);
         return newUser;
     }

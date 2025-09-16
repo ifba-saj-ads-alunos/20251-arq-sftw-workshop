@@ -39,10 +39,12 @@ class UserCreationDomainServiceTest {
     UserRoleType userRoleType;
     UserRole userRole;
     AccessLevel accessLevel;
+    String cpf;
 
     @BeforeEach
     void setUp() throws InternalServerException {
         name = UserRoleType.STUDENT.name();
+    cpf = "12345678901";
         email = new Email("20232tadsaj1234@ifba.edu.br");
         encryptedPassword = new EncryptedPassword("$2a$12$m/q4H5FU2CCQ34ggdanrWOcPJX1iQRPs.B9VcZynoYO8W3P5oX1/u");
         userRoleType = UserRoleType.STUDENT;
@@ -55,7 +57,7 @@ class UserCreationDomainServiceTest {
         when(userRoleRepository.findByType(userRoleType)).thenReturn(Optional.of(userRole));
         when(accessLevelRepository.findByType(AccessLevelType.USER)).thenReturn(Optional.of(accessLevel));
         when(userRepository.findByEmail(email.value())).thenReturn(Optional.empty());
-        User user = service.createNewUser(name, email, encryptedPassword, userRoleType);
+    User user = service.createNewUser(name, cpf, email, encryptedPassword, userRoleType);
         assertNotNull(user);
         assertEquals(name, user.getName());
         assertEquals(email, user.getEmail());
@@ -70,7 +72,7 @@ class UserCreationDomainServiceTest {
         when(accessLevelRepository.findByType(AccessLevelType.USER)).thenReturn(Optional.of(accessLevel));
         when(userRepository.findByEmail(email.value())).thenReturn(Optional.of(mock(User.class)));
         assertThrows(ResourceAlreadyExistsException.class, () ->
-            service.createNewUser(name, email, encryptedPassword, userRoleType)
+            service.createNewUser(name, cpf, email, encryptedPassword, userRoleType)
         );
     }
 
@@ -78,7 +80,7 @@ class UserCreationDomainServiceTest {
     void shouldThrowWhenUserRoleNotFound() {
         when(userRoleRepository.findByType(userRoleType)).thenReturn(Optional.empty());
         assertThrows(InternalServerException.class, () ->
-            service.createNewUser(name, email, encryptedPassword, userRoleType)
+            service.createNewUser(name, cpf, email, encryptedPassword, userRoleType)
         );
     }
 
@@ -87,7 +89,7 @@ class UserCreationDomainServiceTest {
         when(userRoleRepository.findByType(userRoleType)).thenReturn(Optional.of(userRole));
         when(accessLevelRepository.findByType(AccessLevelType.USER)).thenReturn(Optional.empty());
         assertThrows(InternalServerException.class, () ->
-            service.createNewUser(name, email, encryptedPassword, userRoleType)
+            service.createNewUser(name, cpf, email, encryptedPassword, userRoleType)
         );
     }
 } 

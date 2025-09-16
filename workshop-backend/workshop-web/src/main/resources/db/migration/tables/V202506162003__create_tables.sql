@@ -36,6 +36,7 @@ INSERT INTO user_roles (id, name, description, deleted, created_at, updated_at) 
 CREATE TABLE users (
     id BINARY(16) PRIMARY KEY, -- UUID armazenado como BINARY(16)
     name VARCHAR(255) NOT NULL,
+    cpf VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     user_role_id BINARY(16) NOT NULL, -- Chave estrangeira para user_roles
     access_level_id BINARY(16) NOT NULL, -- Chave estrangeira para access_levels

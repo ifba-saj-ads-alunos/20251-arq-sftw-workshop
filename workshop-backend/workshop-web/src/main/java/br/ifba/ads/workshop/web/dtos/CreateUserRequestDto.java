@@ -7,6 +7,7 @@ import br.ifba.ads.workshop.core.domain.validators.EnumValidator;
 
 public record CreateUserRequestDto(
         String name,
+        String cpf,
         String email,
         String password,
         String userRole
@@ -15,6 +16,7 @@ public record CreateUserRequestDto(
                 EnumValidator.validateName(userRole, UserRoleType.class);
                 return new CreateUserCommand(
                         name,
+                        cpf,
                         new br.ifba.ads.workshop.core.domain.models.valueObjects.Email(
                                 email
                         ),

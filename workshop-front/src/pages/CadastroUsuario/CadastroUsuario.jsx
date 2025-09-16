@@ -9,6 +9,7 @@ export default function CadastroUsuario({ onBack }) {
   
   const [formData, setFormData] = useState({
     nome: '',
+  cpf: '',
     email: '',
     senha: '',
     tipo: 'Estudante'
@@ -53,6 +54,7 @@ export default function CadastroUsuario({ onBack }) {
     try {
       const userData = {
         name: formData.nome,
+  cpf: formData.cpf,
         email: formData.email,
         password: formData.senha,
         userRole: mapTipoToUserRole(formData.tipo)
@@ -63,6 +65,7 @@ export default function CadastroUsuario({ onBack }) {
       
       setFormData({
         nome: '',
+  cpf: '',
         email: '',
         senha: '',
         tipo: 'Estudante'
@@ -105,6 +108,21 @@ export default function CadastroUsuario({ onBack }) {
             value={formData.nome} 
             onChange={handleChange} 
             className='cadastro-usuario'
+            required
+          />
+        </label>
+
+        <label className='cadastro-usuario'>
+          CPF:
+          <input
+            type="text"
+            name="cpf"
+            value={formData.cpf}
+            onChange={handleChange}
+            className='cadastro-usuario'
+            placeholder="Somente números"
+            pattern="\d{11}"
+            title="Informe 11 dígitos numéricos do CPF"
             required
           />
         </label>

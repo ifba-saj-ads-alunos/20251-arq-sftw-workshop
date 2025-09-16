@@ -44,7 +44,7 @@ class CreateUserUseCaseImplTest {
         email = new Email("test@ifba.edu.br");
         //12345
         encryptedPassword = new EncryptedPassword("$2a$12$m/q4H5FU2CCQ34ggdanrWOcPJX1iQRPs.B9VcZynoYO8W3P5oX1/u");
-        command = new CreateUserCommand("Test User", email, new br.ifba.ads.workshop.core.domain.models.valueObjects.Password("password123"), UserRoleType.STUDENT);
+    command = new CreateUserCommand("Test User", "12345678901", email, new br.ifba.ads.workshop.core.domain.models.valueObjects.Password("password123"), UserRoleType.STUDENT);
         user = mock(User.class);
         userOutput = new UserOutput(UUID.randomUUID(),"Test User", email.value(), UserRoleType.STUDENT, AccessLevelType.USER, null, null, null);
     }
@@ -57,7 +57,7 @@ class CreateUserUseCaseImplTest {
     void shouldCreateUserSuccessfully() {
         mockTransactionManager();
         when(passwordEncoder.encode(command.password())).thenReturn(encryptedPassword);
-        when(userCreationDomainService.createNewUser(command.name(), command.email(), encryptedPassword, command.userRole())).thenReturn(user);
+    when(userCreationDomainService.createNewUser(command.name(), command.cpf(), command.email(), encryptedPassword, command.userRole())).thenReturn(user);
         try (var mocked = mockStatic(UserOutput.class)) {
             mocked.when(() -> UserOutput.fromUser(user)).thenReturn(userOutput);
             UserOutput result = useCase.execute(command);
@@ -70,7 +70,7 @@ class CreateUserUseCaseImplTest {
     void shouldThrowInternalServerExceptionWhenDomainServiceFails() {
         mockTransactionManager();
         when(passwordEncoder.encode(command.password())).thenReturn(encryptedPassword);
-        when(userCreationDomainService.createNewUser(any(), any(), any(), any())).thenThrow(new InternalServerException("Erro ao criar usuário"));
+    when(userCreationDomainService.createNewUser(any(), any(), any(), any(), any())).thenThrow(new InternalServerException("Erro ao criar usuário"));
         assertThrows(InternalServerException.class, () -> useCase.execute(command));
     }
 

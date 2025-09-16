@@ -1,5 +1,8 @@
 package br.ifba.ads.workshop.infra.persistence.entities.user;
 
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
 import br.ifba.ads.workshop.infra.persistence.entities.AccessLevelEntity;
 import br.ifba.ads.workshop.infra.persistence.entities.BaseEntity;
 import jakarta.persistence.Entity;
@@ -11,9 +14,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.ZonedDateTime;
-import java.util.UUID;
-
 
 @Entity
 @Table(name = "users")
@@ -23,6 +23,7 @@ import java.util.UUID;
 @SuperBuilder
 public class UserEntity extends BaseEntity {
     private String name;
+    private String cpf;
     private String email;
 
     @ManyToOne
