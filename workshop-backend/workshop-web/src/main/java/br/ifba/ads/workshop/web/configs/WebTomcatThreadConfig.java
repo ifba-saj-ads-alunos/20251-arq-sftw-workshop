@@ -17,7 +17,8 @@ public class WebTomcatThreadConfig {
     @Bean
     public TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
         return protocolHandler -> {
-            protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+            // Use regular thread pool executor for Java 17 compatibility
+            protocolHandler.setExecutor(Executors.newCachedThreadPool());
         };
     }
 }

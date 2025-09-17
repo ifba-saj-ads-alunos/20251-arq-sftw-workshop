@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 public class ThreadConfig {
     @Bean
     public AsyncTaskExecutor applicationTaskExecutor() {
-        return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+        // Use regular thread pool executor for Java 17 compatibility
+        return new TaskExecutorAdapter(Executors.newCachedThreadPool());
     }
 }

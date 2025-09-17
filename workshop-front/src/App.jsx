@@ -5,6 +5,7 @@ import TelaPrincipal from './pages/TelaPrincipal/TelaPrincipal.jsx';
 import CadastroEvento from './pages/CadastroEvento/CadastroEvento.jsx';
 import TelaAdministrador from './pages/TelaAdministrador/TelaAdministrador.jsx';
 import TelaAprovarEvento from './pages/TelaAprovarEvento/TelaAprovarEvento.jsx';
+import TelaNotificacoes from './pages/TelaNotificacoes/TelaNotificacoes.jsx';
 import EventosInscritos from './pages/EventosInscritos/EventosInscritos.jsx';
 import VisualizarCertificados from './pages/VisualizarCertificados/VisualizarCertificados.jsx';
 import { SnackbarProvider } from './components/Snackbar/Snackbar.jsx';
