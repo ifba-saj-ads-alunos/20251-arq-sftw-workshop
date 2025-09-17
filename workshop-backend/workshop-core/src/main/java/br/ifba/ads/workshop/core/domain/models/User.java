@@ -1,12 +1,12 @@
 package br.ifba.ads.workshop.core.domain.models;
 
-import java.time.ZonedDateTime;
-import java.util.UUID;
-
 import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
 import br.ifba.ads.workshop.core.domain.models.enums.AccessLevelType;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.Email;
 import br.ifba.ads.workshop.core.domain.models.valueObjects.EncryptedPassword;
+
+import java.time.ZonedDateTime;
+import java.util.UUID;
 
 public class User extends AuditableModel {
     private String name;
@@ -96,7 +96,6 @@ public class User extends AuditableModel {
         this.lastAccess = ZonedDateTime.now();
     }
 
-
     private void validateUserData() {
         validateName(this.name);
         validateCpf(this.cpf);
@@ -107,51 +106,50 @@ public class User extends AuditableModel {
     }
 
     private void validateCpf(String cpf) {
-        // Backward compatibility: allow empty or null CPF for legacy constructors/tests.
-        // Enforce format only when a CPF is provided.
         if (cpf == null || cpf.trim().isEmpty()) {
-            return;
+            throw new InvalidDataException("CPF nao pode ser vazio");
         }
         String onlyDigits = cpf.replaceAll("\\D", "");
         if (onlyDigits.length() != 11) {
-            throw new InvalidDataException("CPF deve conter 11 dígitos");
+            throw new InvalidDataException("CPF deve conter 11 digitos");
         }
+        this.cpf = onlyDigits;
     }
 
     private void validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidDataException("Nome não pode ser vazio");
+            throw new InvalidDataException("Nome nao pode ser vazio");
         }
         if (name.length() > 100) {
-            throw new InvalidDataException("Nome não pode ter mais de 100 caracteres");
+            throw new InvalidDataException("Nome nao pode ter mais de 100 caracteres");
         }
     }
 
     private void validateEmail(Email email) {
         if (email == null) {
-            throw new InvalidDataException("Email não pode ser nulo");
+            throw new InvalidDataException("Email nao pode ser nulo");
         }
     }
 
     private void validateUserRole(UserRole userRole, Email email) {
         if (userRole == null) {
-            throw new InvalidDataException("Tipo do usuário não pode ser nulo");
+            throw new InvalidDataException("Tipo do usuario nao pode ser nulo");
         }
 
         if (!userRole.verifyUserRole(email, userRole.getType())) {
-            throw new InvalidDataException("Tipo do usuário não é válido para o email fornecido");
+            throw new InvalidDataException("Tipo do usuario invalido para o email fornecido");
         }
     }
 
     private void validateAccessLevel(AccessLevel accessLevel) {
         if (accessLevel == null) {
-            throw new InvalidDataException("Nível de acesso não pode ser nulo");
+            throw new InvalidDataException("Nivel de acesso nao pode ser nulo");
         }
     }
 
     private void validateLastAccess(ZonedDateTime lastAccess) {
         if (this.lastAccess != null && lastAccess == null) {
-            throw new InvalidDataException("Último acesso não pode ser nulo");
+            throw new InvalidDataException("Ultimo acesso nao pode ser nulo");
         }
 
         if (lastAccess == null) {

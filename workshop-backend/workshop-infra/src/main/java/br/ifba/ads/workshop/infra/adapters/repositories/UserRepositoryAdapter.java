@@ -29,4 +29,10 @@ public class UserRepositoryAdapter extends CrudRepositoryAdapter<User, UserEntit
         var userEntity = repository.findByEmailAndDeletedIsFalse(email);
         return userEntity.map(mapper::toDomain);
     }
+
+    @Override
+    public Optional<User> findByCpf(String cpf) {
+        var userEntity = repository.findByCpfAndDeletedIsFalse(cpf);
+        return userEntity.map(mapper::toDomain);
+    }
 }

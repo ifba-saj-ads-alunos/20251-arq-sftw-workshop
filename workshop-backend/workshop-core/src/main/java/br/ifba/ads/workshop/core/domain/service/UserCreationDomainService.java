@@ -1,5 +1,6 @@
 package br.ifba.ads.workshop.core.domain.service;
 
+import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
 import br.ifba.ads.workshop.core.domain.exception.InternalServerException;
 import br.ifba.ads.workshop.core.domain.exception.ResourceAlreadyExistsException;
 import br.ifba.ads.workshop.core.domain.models.User;
@@ -11,7 +12,6 @@ import br.ifba.ads.workshop.core.domain.repositories.AccessLevelRepository;
 import br.ifba.ads.workshop.core.domain.repositories.UserRepository;
 import br.ifba.ads.workshop.core.domain.repositories.UserRoleRepository;
 
-
 public final class UserCreationDomainService {
     private final UserRepository repository;
     private final AccessLevelRepository accessLevelRepository;
@@ -21,7 +21,7 @@ public final class UserCreationDomainService {
             UserRepository userRepository,
             AccessLevelRepository accessLevelRepository,
             UserRoleRepository userRoleRepository
-    ){
+    ) {
         this.repository = userRepository;
         this.accessLevelRepository = accessLevelRepository;
         this.userRoleRepository = userRoleRepository;
@@ -36,17 +36,38 @@ public final class UserCreationDomainService {
     ) throws InternalServerException, ResourceAlreadyExistsException {
         var userRole = userRoleRepository.findByType(userRoleType).orElseThrow(() ->
                 new InternalServerException("The user role with name '" + name + "' does not exist in the database"));
-        var accessLevel =  accessLevelRepository.findByType(AccessLevelType.USER).orElseThrow(() ->
+        var accessLevel = accessLevelRepository.findByType(AccessLevelType.USER).orElseThrow(() ->
                 new InternalServerException("The access level with name '" + name + "' does not exist in the database"));
-        verifyIfUserExists(email);
-    var newUser = new User(name, cpf, email, userRole, accessLevel, encryptedPassword, null);
+
+        var normalizedCpf = normalizeCpf(cpf);
+        verifyIfEmailExists(email);
+        verifyIfCpfExists(normalizedCpf);
+
+        var newUser = new User(name, normalizedCpf, email, userRole, accessLevel, encryptedPassword, null);
         repository.saveSafely(newUser);
         return newUser;
     }
 
-    private void verifyIfUserExists(Email email) throws ResourceAlreadyExistsException {
-        if(repository.findByEmail(email.value()).isPresent()) {
-            throw new ResourceAlreadyExistsException("Usuário com email " + email.value() + " já existente.");
+    private void verifyIfEmailExists(Email email) throws ResourceAlreadyExistsException {
+        if (repository.findByEmail(email.value()).isPresent()) {
+            throw new ResourceAlreadyExistsException("Usuario com email " + email.value() + " ja existente.");
         }
+    }
+
+    private void verifyIfCpfExists(String cpf) throws ResourceAlreadyExistsException {
+        if (repository.findByCpf(cpf).isPresent()) {
+            throw new ResourceAlreadyExistsException("Usuario com CPF " + cpf + " ja existente.");
+        }
+    }
+
+    private String normalizeCpf(String cpf) {
+        if (cpf == null) {
+            throw new InvalidDataException("CPF nao pode ser nulo");
+        }
+        var digits = cpf.replaceAll("\\D", "");
+        if (digits.isEmpty()) {
+            throw new InvalidDataException("CPF nao pode ser vazio");
+        }
+        return digits;
     }
 }
