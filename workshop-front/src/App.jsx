@@ -8,6 +8,8 @@ import TelaAprovarEvento from './pages/TelaAprovarEvento/TelaAprovarEvento.jsx';
 import TelaNotificacoes from './pages/TelaNotificacoes/TelaNotificacoes.jsx';
 import EventosInscritos from './pages/EventosInscritos/EventosInscritos.jsx';
 import VisualizarCertificados from './pages/VisualizarCertificados/VisualizarCertificados.jsx';
+import TelaSugestoes from './pages/TelaSugestoes/TelaSugestoes.jsx';
+import TelaPerfil from './pages/TelaPerfil/TelaPerfil.jsx';
 import { SnackbarProvider } from './components/Snackbar/Snackbar.jsx';
 import authSecurityService from './services/authSecurityService';
 
@@ -81,6 +83,8 @@ function App() {
             onAbrirAdministrador={() => setTela('administrador')}
             onVisualizarMeusEventos={() => setTela('eventosInscritos')}
             onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}
+            onAbrirSugestoes={() => setTela('sugestoes')}
+            onAbrirPerfil={() => setTela('perfil')}
           />
         )}
 
@@ -122,6 +126,17 @@ function App() {
             usuario={usuarioLogado}
             onBack={() => setTela('principal')}
             onVisualizarMeusEventos={() => setTela('eventosInscritos')} />
+        )}
+
+        {tela === 'sugestoes' && (
+          <TelaSugestoes onVoltar={() => setTela('principal')} />
+        )}
+
+        {tela === 'perfil' && (
+          <TelaPerfil 
+            usuario={usuarioLogado}
+            onVoltar={() => setTela('principal')} 
+          />
         )}
       </div>
     </SnackbarProvider>

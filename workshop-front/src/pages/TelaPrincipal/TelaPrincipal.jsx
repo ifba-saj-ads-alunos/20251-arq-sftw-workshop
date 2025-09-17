@@ -7,7 +7,7 @@ import InscricaoEventoModal from '../../components/InscricaoEventoModal/Inscrica
 import { fetchUnreadCount } from '../../services/notificationService';
 import { useEffect } from 'react';
 
-export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados }) {
+export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados, onAbrirSugestoes, onAbrirPerfil }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
@@ -39,6 +39,30 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
 
   const toggleMenu = () => setMenuAberto(!menuAberto);
 
+  // Helper functions to check user permissions
+  const getUserRole = () => {
+    if (!usuario) return null;
+    return typeof usuario.userRole === 'string' ? usuario.userRole : (usuario.userRole?.name || usuario.userRole);
+  };
+
+  const getAccessLevel = () => {
+    if (!usuario) return null;
+    return typeof usuario.accessLevel === 'string' ? usuario.accessLevel : (usuario.accessLevel?.name || usuario.accessLevel);
+  };
+
+  const canCreateEvents = () => {
+    const role = getUserRole();
+    const accessLevel = getAccessLevel();
+    // Only non-visitors with appropriate permissions can create events
+    return role !== 'VISITOR' && (accessLevel === 'ADMIN' || role === 'TEACHER' || role === 'EMPLOYEE');
+  };
+
+  const canAccessAdmin = () => {
+    const accessLevel = getAccessLevel();
+    // Only users with ADMIN access level can access admin panel
+    return accessLevel === 'ADMIN';
+  };
+
   const eventosAprovados = eventosMock.filter(evento => evento.aprovado === true);
 
   const abrirModalInscricao = (evento) => {
@@ -63,15 +87,25 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
 
         {menuAberto && (
           <div className="menu-lateral">
-            <button onClick={() => alert('Meu Perfil')}>Meu Perfil</button>
-            <button onClick={onCadastrarEvento}>Cadastrar Evento</button>
             <button onClick={() => {
               setMenuAberto(false);
-              onAbrirAdministrador();
-            }}>
-              Administrador
-            </button>
-            <button onClick={() => alert('Sugestões')}>Sugestões</button>
+              onAbrirPerfil();
+            }}>Meu Perfil</button>
+            {canCreateEvents() && (
+              <button onClick={onCadastrarEvento}>Cadastrar Evento</button>
+            )}
+            {canAccessAdmin() && (
+              <button onClick={() => {
+                setMenuAberto(false);
+                onAbrirAdministrador();
+              }}>
+                Administrador
+              </button>
+            )}
+            <button onClick={() => {
+              setMenuAberto(false);
+              onAbrirSugestoes();
+            }}>Sugestões</button>
             <button onClick={onLogout}>Logout</button>
           </div>
         )}
