@@ -61,33 +61,6 @@ public class User extends AuditableModel {
         validateUserData();
     }
 
-    // Backward compatible constructors (cpf not provided)
-    public User(
-            UUID id,
-            ZonedDateTime createdAt,
-            ZonedDateTime updatedAt,
-            boolean deleted,
-            String name,
-            Email email,
-            UserRole userRole,
-            AccessLevel accessLevel,
-            EncryptedPassword password,
-            ZonedDateTime lastAccess
-    ) {
-        this(id, createdAt, updatedAt, deleted, name, "", email, userRole, accessLevel, password, lastAccess);
-    }
-
-    public User(
-            String name,
-            Email email,
-            UserRole userRole,
-            AccessLevel accessLevel,
-            EncryptedPassword password,
-            ZonedDateTime lastAccess
-    ) {
-        this(name, "", email, userRole, accessLevel, password, lastAccess);
-    }
-
     public Boolean isAdmin() {
         return this.accessLevel.getType().equals(AccessLevelType.ADMIN);
     }
