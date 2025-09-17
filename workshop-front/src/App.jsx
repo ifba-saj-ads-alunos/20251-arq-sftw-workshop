@@ -7,6 +7,9 @@ import TelaAdministrador from './pages/TelaAdministrador/TelaAdministrador.jsx';
 import TelaAprovarEvento from './pages/TelaAprovarEvento/TelaAprovarEvento.jsx';
 import EventosInscritos from './pages/EventosInscritos/EventosInscritos.jsx';
 import VisualizarCertificados from './pages/VisualizarCertificados/VisualizarCertificados.jsx';
+import TelaNotificacoes from './pages/TelaNotificacoes/TelaNotificacoes.jsx';
+import TelaSugestoes from './pages/TelaSugestoes/TelaSugestoes.jsx';
+import TelaMeuPerfil from './pages/TelaMeuPerfil/TelaMeuPerfil.jsx';
 import { SnackbarProvider } from './components/Snackbar/Snackbar.jsx';
 import authSecurityService from './services/authSecurityService';
 
@@ -27,9 +30,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const handler = () => setTela('notificacoes');
-    window.addEventListener('openNotifications', handler);
-    return () => window.removeEventListener('openNotifications', handler);
+    const notificationHandler = () => setTela('notificacoes');
+    const sugestoesHandler = () => setTela('sugestoes');
+    const meuPerfilHandler = () => setTela('meuPerfil');
+    
+    window.addEventListener('openNotifications', notificationHandler);
+    window.addEventListener('openSugestoes', sugestoesHandler);
+    window.addEventListener('openMeuPerfil', meuPerfilHandler);
+    
+    return () => {
+      window.removeEventListener('openNotifications', notificationHandler);
+      window.removeEventListener('openSugestoes', sugestoesHandler);
+      window.removeEventListener('openMeuPerfil', meuPerfilHandler);
+    };
   }, []);
 
   const handleLoginSuccess = (usuario) => {
@@ -121,6 +134,14 @@ function App() {
             usuario={usuarioLogado}
             onBack={() => setTela('principal')}
             onVisualizarMeusEventos={() => setTela('eventosInscritos')} />
+        )}
+
+        {tela === 'sugestoes' && (
+          <TelaSugestoes onVoltar={() => setTela('principal')} />
+        )}
+
+        {tela === 'meuPerfil' && (
+          <TelaMeuPerfil onVoltar={() => setTela('principal')} />
         )}
       </div>
     </SnackbarProvider>

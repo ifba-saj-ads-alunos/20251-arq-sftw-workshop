@@ -5,13 +5,15 @@ import { FaBars } from 'react-icons/fa';
 import eventosMock from '../../mocks/eventosMock'; 
 import InscricaoEventoModal from '../../components/InscricaoEventoModal/InscricaoEventoModal';
 import { fetchUnreadCount } from '../../services/notificationService';
+import eventRegistrationService from '../../services/eventRegistrationService';
 import { useEffect } from 'react';
 
-export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados }) {
+export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
   const [unread, setUnread] = useState(0);
+  const [registeredEvents, setRegisteredEvents] = useState([]);
 
   useEffect(() => {
     let mounted = true;
@@ -23,6 +25,11 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
         console.error('Erro ao buscar unread count', err);
       }
     })();
+    
+    // Load registered events
+    const registered = eventRegistrationService.getRegisteredEvents();
+    setRegisteredEvents(registered);
+    
     return () => { mounted = false; };
   }, []);
 
@@ -48,9 +55,28 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
 
   const confirmarInscricao = (evento) => {
     setModalAberto(false);
+    eventRegistrationService.registerForEvent(evento);
+    setRegisteredEvents(eventRegistrationService.getRegisteredEvents());
     alert(`Inscrição confirmada no evento: ${evento.titulo}`);
     // acrescentar lógica para salvar inscrição por API posteriormente
   };
+
+  const handleButtonClick = (evento) => {
+    const isRegistered = eventRegistrationService.isRegisteredForEvent(evento.id);
+    if (isRegistered) {
+      alert('Você já está inscrito neste evento!');
+    } else {
+      abrirModalInscricao(evento);
+    }
+  };
+
+  // Get user role for permission checks
+  const getUserRole = () => {
+    if (!usuario) return 'VISITOR';
+    return typeof usuario.userRole === 'string' ? usuario.userRole : (usuario.userRole?.name || usuario.userRole || 'VISITOR');
+  };
+
+  const userRole = getUserRole();
 
   return (
     <div className="tela-container">
@@ -63,15 +89,43 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
 
         {menuAberto && (
           <div className="menu-lateral">
-            <button onClick={() => alert('Meu Perfil')}>Meu Perfil</button>
-            <button onClick={onCadastrarEvento}>Cadastrar Evento</button>
             <button onClick={() => {
               setMenuAberto(false);
-              onAbrirAdministrador();
-            }}>
-              Administrador
-            </button>
-            <button onClick={() => alert('Sugestões')}>Sugestões</button>
+              if (userRole === 'VISITOR') {
+                // Navigate to profile page for visitors
+                window.dispatchEvent(new CustomEvent('openMeuPerfil'));
+              } else {
+                alert('Meu Perfil');
+              }
+            }}>Meu Perfil</button>
+            
+            {/* Only show Cadastrar Evento for non-visitors */}
+            {userRole !== 'VISITOR' && (
+              <button onClick={() => {
+                setMenuAberto(false);
+                onCadastrarEvento();
+              }}>Cadastrar Evento</button>
+            )}
+            
+            {/* Only show Administrador for non-visitors */}
+            {userRole !== 'VISITOR' && (
+              <button onClick={() => {
+                setMenuAberto(false);
+                onAbrirAdministrador();
+              }}>
+                Administrador
+              </button>
+            )}
+            
+            <button onClick={() => {
+              setMenuAberto(false);
+              if (userRole === 'VISITOR') {
+                // Navigate to suggestions page for visitors
+                window.dispatchEvent(new CustomEvent('openSugestoes'));
+              } else {
+                alert('Sugestões');
+              }
+            }}>Sugestões</button>
             <button onClick={onLogout}>Logout</button>
           </div>
         )}
@@ -108,31 +162,34 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
           {eventosAprovados.length === 0 ? (
             <p>Nenhum evento disponível.</p>
           ) : (
-            eventosAprovados.map((evento) => (
-              <div key={evento.id} className="quadro-evento">
-                <h3>{evento.titulo}</h3>
-                <p><strong>Descrição:</strong> {evento.descricao}</p>
-                <p><strong>Categoria:</strong> {evento.categoria}</p>
-                <p><strong>Data:</strong> {evento.dataInicio} até {evento.dataFim}</p>
-                <p><strong>Vagas:</strong> {evento.vagas}</p>
-                <p><strong>Palestrante:</strong> {evento.palestrante}</p>
-                <p><strong>Localidade:</strong> {evento.localidade}</p>
-                {evento.localidade === 'Remota' && (
-                  <p><strong>Link:</strong> <a href={evento.link} target="_blank" rel="noopener noreferrer">{evento.link}</a></p>
-                )}
-                {evento.localidade === 'Presencial' && (
-                  <p><strong>Sala:</strong> {evento.sala}</p>
-                )}
+            eventosAprovados.map((evento) => {
+              const isRegistered = eventRegistrationService.isRegisteredForEvent(evento.id);
+              return (
+                <div key={evento.id} className="quadro-evento">
+                  <h3>{evento.titulo}</h3>
+                  <p><strong>Descrição:</strong> {evento.descricao}</p>
+                  <p><strong>Categoria:</strong> {evento.categoria}</p>
+                  <p><strong>Data:</strong> {evento.dataInicio} até {evento.dataFim}</p>
+                  <p><strong>Vagas:</strong> {evento.vagas}</p>
+                  <p><strong>Palestrante:</strong> {evento.palestrante}</p>
+                  <p><strong>Localidade:</strong> {evento.localidade}</p>
+                  {evento.localidade === 'Remota' && (
+                    <p><strong>Link:</strong> <a href={evento.link} target="_blank" rel="noopener noreferrer">{evento.link}</a></p>
+                  )}
+                  {evento.localidade === 'Presencial' && (
+                    <p><strong>Sala:</strong> {evento.sala}</p>
+                  )}
 
-                <button 
-                  className="btn-inscrever"
-                  onClick={() => abrirModalInscricao(evento)}
-                >
-                  Inscrever-se
-                </button>
+                  <button 
+                    className={`btn-inscrever ${isRegistered ? 'inscrito' : ''}`}
+                    onClick={() => handleButtonClick(evento)}
+                  >
+                    {isRegistered ? 'Inscrito' : 'Inscrever-se'}
+                  </button>
 
-              </div>
-            ))
+                </div>
+              );
+            })
           )}
         </div>
       </div>
