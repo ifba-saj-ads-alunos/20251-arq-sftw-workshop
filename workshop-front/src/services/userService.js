@@ -1,9 +1,12 @@
 import httpFactory from './httpFactory';
 
+const normalizeCpf = (cpf) => (cpf ?? '').replace(/\D/g, '');
+
 export const userService = {
   createUser: async (userData) => {
     const response = await httpFactory.post('/api/v1/users', {
       name: userData.name,
+      cpf: normalizeCpf(userData.cpf),
       email: userData.email,
       password: userData.password,
       userRole: userData.userRole
