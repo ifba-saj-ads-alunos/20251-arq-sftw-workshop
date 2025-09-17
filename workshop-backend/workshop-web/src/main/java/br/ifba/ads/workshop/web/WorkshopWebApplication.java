@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "br.ifba.ads.workshop.infra",
         "br.ifba.ads.workshop.web"
 })
-@EnableJpaRepositories("br.ifba.ads.workshop.infra.persistence.repositories")
-@EntityScan("br.ifba.ads.workshop.infra.persistence.entities")
+@EnableJpaRepositories(basePackages = "br.ifba.ads.workshop.infra.persistence")
+@EntityScan(basePackages = "br.ifba.ads.workshop.infra.persistence")
 public class WorkshopWebApplication {
 
     public static void main(String[] args) {
