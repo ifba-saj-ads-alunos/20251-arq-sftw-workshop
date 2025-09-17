@@ -19,6 +19,7 @@ public class SessionsEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
+    @Column(length = 1000) // Increase token column length for JWT tokens
     private String token;
     private ZonedDateTime issuedAt;
     private ZonedDateTime expiresAt;
