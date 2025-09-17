@@ -5,6 +5,7 @@ import { FaBars } from 'react-icons/fa';
 import eventosMock from '../../mocks/eventosMock'; 
 import InscricaoEventoModal from '../../components/InscricaoEventoModal/InscricaoEventoModal';
 import { fetchUnreadCount } from '../../services/notificationService';
+import eventRegistrationService from '../../services/eventRegistrationService';
 import { useEffect } from 'react';
 
 export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados, onAbrirSugestoes, onAbrirPerfil }) {
@@ -12,6 +13,22 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
   const [modalAberto, setModalAberto] = useState(false);
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
   const [unread, setUnread] = useState(0);
+  const [eventosDisponiveis, setEventosDisponiveis] = useState([]);
+
+  // Update available events based on user registrations
+  useEffect(() => {
+    if (usuario) {
+      const userId = usuario.id || usuario.email; // Use ID or email as user identifier
+      const eventosAprovados = eventosMock.filter(evento => evento.aprovado === true);
+      
+      // Filter out events the user is already registered for
+      const eventosNaoInscritos = eventosAprovados.filter(evento => 
+        !eventRegistrationService.isRegisteredForEvent(userId, evento.id)
+      );
+      
+      setEventosDisponiveis(eventosNaoInscritos);
+    }
+  }, [usuario]);
 
   useEffect(() => {
     let mounted = true;
@@ -63,8 +80,6 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
     return accessLevel === 'ADMIN';
   };
 
-  const eventosAprovados = eventosMock.filter(evento => evento.aprovado === true);
-
   const abrirModalInscricao = (evento) => {
     setEventoSelecionado(evento);
     setModalAberto(true);
@@ -72,8 +87,22 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
 
   const confirmarInscricao = (evento) => {
     setModalAberto(false);
-    alert(`Inscrição confirmada no evento: ${evento.titulo}`);
-    // acrescentar lógica para salvar inscrição por API posteriormente
+    
+    if (usuario) {
+      const userId = usuario.id || usuario.email;
+      const result = eventRegistrationService.registerForEvent(userId, evento);
+      
+      if (result.success) {
+        alert(`Inscrição confirmada no evento: ${evento.titulo}`);
+        
+        // Update available events by removing the registered event
+        setEventosDisponiveis(prev => prev.filter(e => e.id !== evento.id));
+      } else {
+        alert(`Erro na inscrição: ${result.message}`);
+      }
+    } else {
+      alert('Erro: usuário não identificado');
+    }
   };
 
   return (
@@ -139,10 +168,10 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
         <h2 id="h2-eventos">Eventos Disponíveis</h2>
 
         <div className="eventos-quadro">
-          {eventosAprovados.length === 0 ? (
+          {eventosDisponiveis.length === 0 ? (
             <p>Nenhum evento disponível.</p>
           ) : (
-            eventosAprovados.map((evento) => (
+            eventosDisponiveis.map((evento) => (
               <div key={evento.id} className="quadro-evento">
                 <h3>{evento.titulo}</h3>
                 <p><strong>Descrição:</strong> {evento.descricao}</p>
