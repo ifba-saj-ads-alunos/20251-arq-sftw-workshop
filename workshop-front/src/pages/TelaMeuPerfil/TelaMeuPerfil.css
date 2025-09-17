@@ -1,0 +1,139 @@
+.perfil-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.perfil-info {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.perfil-info h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #10B981;
+  padding-bottom: 0.5rem;
+}
+
+.info-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.info-group:last-child {
+  border-bottom: none;
+}
+
+.info-group label {
+  font-weight: bold;
+  color: #4a5568;
+}
+
+.info-group span {
+  color: #2d3748;
+}
+
+.estatisticas {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.estatisticas h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #10B981;
+  padding-bottom: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+}
+
+.stat-item h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #10B981;
+  margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.eventos-recentes {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.eventos-recentes h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #10B981;
+  padding-bottom: 0.5rem;
+}
+
+.eventos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.evento-item {
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 6px;
+  border-left: 4px solid #10B981;
+}
+
+.evento-item h4 {
+  margin-bottom: 0.5rem;
+  color: #2d3748;
+}
+
+.evento-item p {
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.evento-item small {
+  color: #718096;
+}
+
+@media (max-width: 768px) {
+  .perfil-container {
+    margin: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
