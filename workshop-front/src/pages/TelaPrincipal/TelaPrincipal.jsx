@@ -7,7 +7,7 @@ import InscricaoEventoModal from '../../components/InscricaoEventoModal/Inscrica
 import { fetchUnreadCount } from '../../services/notificationService';
 import { useEffect } from 'react';
 
-export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados }) {
+export default function TelaPrincipal({ usuario, eventosInscritos, setEventosInscritos, onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados, onAbrirSugestoes, onAbrirPerfil }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
@@ -48,8 +48,22 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
 
   const confirmarInscricao = (evento) => {
     setModalAberto(false);
+    // Add event to subscribed events
+    setEventosInscritos(prev => [...prev, evento]);
     alert(`Inscrição confirmada no evento: ${evento.titulo}`);
     // acrescentar lógica para salvar inscrição por API posteriormente
+  };
+
+  const isEventoInscrito = (eventoId) => {
+    return eventosInscritos.some(evento => evento.id === eventoId);
+  };
+
+  const handleClickInscricao = (evento) => {
+    if (isEventoInscrito(evento.id)) {
+      alert('Você já está inscrito neste evento!');
+    } else {
+      abrirModalInscricao(evento);
+    }
   };
 
   return (
@@ -63,15 +77,27 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
 
         {menuAberto && (
           <div className="menu-lateral">
-            <button onClick={() => alert('Meu Perfil')}>Meu Perfil</button>
-            <button onClick={onCadastrarEvento}>Cadastrar Evento</button>
             <button onClick={() => {
               setMenuAberto(false);
-              onAbrirAdministrador();
-            }}>
-              Administrador
-            </button>
-            <button onClick={() => alert('Sugestões')}>Sugestões</button>
+              onAbrirPerfil();
+            }}>Meu Perfil</button>
+            {/* Only allow authenticated users with proper roles to access event creation */}
+            {usuario && usuario.accessLevel === 'ADMIN' && (
+              <button onClick={onCadastrarEvento}>Cadastrar Evento</button>
+            )}
+            {/* Only allow admin users to access administrator panel */}
+            {usuario && usuario.accessLevel === 'ADMIN' && (
+              <button onClick={() => {
+                setMenuAberto(false);
+                onAbrirAdministrador();
+              }}>
+                Administrador
+              </button>
+            )}
+            <button onClick={() => {
+              setMenuAberto(false);
+              onAbrirSugestoes();
+            }}>Sugestões</button>
             <button onClick={onLogout}>Logout</button>
           </div>
         )}
@@ -125,10 +151,10 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
                 )}
 
                 <button 
-                  className="btn-inscrever"
-                  onClick={() => abrirModalInscricao(evento)}
+                  className={`btn-inscrever ${isEventoInscrito(evento.id) ? 'inscrito' : ''}`}
+                  onClick={() => handleClickInscricao(evento)}
                 >
-                  Inscrever-se
+                  {isEventoInscrito(evento.id) ? 'Inscrito' : 'Inscrever-se'}
                 </button>
 
               </div>

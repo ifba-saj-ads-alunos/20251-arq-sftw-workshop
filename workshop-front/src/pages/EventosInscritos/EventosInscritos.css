@@ -1,3 +1,16 @@
+.status-inscricao {
+  margin-top: 1rem;
+}
+
+.inscrito-badge {
+  background-color: #10B981;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
 /* Responsividade para tablets */
 @media (min-width: 600px) {
   button.eventos-inscritos{

@@ -97,6 +97,15 @@ button.btn-inscrever:hover{
   background-color: #0f9e6e;
 }
 
+button.btn-inscrever.inscrito{
+  background-color: #6B7280;
+  cursor: default;
+}
+
+button.btn-inscrever.inscrito:hover{
+  background-color: #6B7280;
+}
+
 /* Responsividade para tablets*/
 @media (min-width: 600px) {
   .principal-container {

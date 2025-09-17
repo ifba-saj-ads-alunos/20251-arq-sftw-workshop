@@ -7,12 +7,16 @@ import TelaAdministrador from './pages/TelaAdministrador/TelaAdministrador.jsx';
 import TelaAprovarEvento from './pages/TelaAprovarEvento/TelaAprovarEvento.jsx';
 import EventosInscritos from './pages/EventosInscritos/EventosInscritos.jsx';
 import VisualizarCertificados from './pages/VisualizarCertificados/VisualizarCertificados.jsx';
+import TelaNotificacoes from './pages/TelaNotificacoes/TelaNotificacoes.jsx';
+import TelaSugestoes from './pages/TelaSugestoes/TelaSugestoes.jsx';
+import TelaPerfil from './pages/TelaPerfil/TelaPerfil.jsx';
 import { SnackbarProvider } from './components/Snackbar/Snackbar.jsx';
 import authSecurityService from './services/authSecurityService';
 
 function App() {
   const [tela, setTela] = useState('login');
   const [usuarioLogado, setUsuarioLogado] = useState(null);
+  const [eventosInscritos, setEventosInscritos] = useState([]);
 
   useEffect(() => {
     if (authSecurityService.isAuthenticated() && authSecurityService.isTokenValid()) {
@@ -75,11 +79,15 @@ function App() {
         {tela === 'principal' && (
           <TelaPrincipal
             usuario={usuarioLogado}
+            eventosInscritos={eventosInscritos}
+            setEventosInscritos={setEventosInscritos}
             onLogout={handleLogout}
             onCadastrarEvento={() => setTela('cadastroEvento')}
             onAbrirAdministrador={() => setTela('administrador')}
             onVisualizarMeusEventos={() => setTela('eventosInscritos')}
             onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}
+            onAbrirSugestoes={() => setTela('sugestoes')}
+            onAbrirPerfil={() => setTela('perfil')}
           />
         )}
 
@@ -112,6 +120,7 @@ function App() {
         {tela === 'eventosInscritos' && (
           <EventosInscritos
             usuario={usuarioLogado}
+            eventosInscritos={eventosInscritos}
             onBack={() => setTela('principal')}
             onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}/>
         )}
@@ -121,6 +130,14 @@ function App() {
             usuario={usuarioLogado}
             onBack={() => setTela('principal')}
             onVisualizarMeusEventos={() => setTela('eventosInscritos')} />
+        )}
+
+        {tela === 'sugestoes' && (
+          <TelaSugestoes onVoltar={() => setTela('principal')} />
+        )}
+
+        {tela === 'perfil' && (
+          <TelaPerfil usuario={usuarioLogado} onVoltar={() => setTela('principal')} />
         )}
       </div>
     </SnackbarProvider>
