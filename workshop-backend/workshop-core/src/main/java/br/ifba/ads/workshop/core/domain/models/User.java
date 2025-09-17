@@ -130,11 +130,11 @@ public class User extends AuditableModel {
         }
 
         if (lastAccess.isAfter(ZonedDateTime.now())) {
-            throw new InvalidDataException("Último acesso não pode ser no futuro");
+            throw new InvalidDataException("Ultimo acesso nao pode ser no futuro");
         }
 
-        if(this.lastAccess != null && lastAccess.isBefore(this.lastAccess)) {
-            throw new InvalidDataException("Último acesso não pode ser anterior ao acesso anterior");
+        if (this.lastAccess != null && lastAccess.isBefore(this.lastAccess)) {
+            throw new InvalidDataException("Ultimo acesso nao pode ser anterior ao acesso anterior");
         }
     }
 
