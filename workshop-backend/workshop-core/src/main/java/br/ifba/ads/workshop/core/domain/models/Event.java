@@ -1,10 +1,10 @@
 package br.ifba.ads.workshop.core.domain.models;
 
+import java.time.ZonedDateTime;
+
 import br.ifba.ads.workshop.core.domain.exception.InvalidDataException;
 import br.ifba.ads.workshop.core.domain.models.enums.EventModality;
 import br.ifba.ads.workshop.core.domain.models.enums.EventStatus;
-
-import java.time.ZonedDateTime;
 
 public final class Event extends AuditableModel {
     private String title;
@@ -14,6 +14,8 @@ public final class Event extends AuditableModel {
     private Integer vacancies;
     private EventModality modality;
     private EventStatus status;
+    private java.util.UUID organizerId;
+    private String rejectionJustification;
     private String location;      
     private String remoteLink;
     private String category;
@@ -29,6 +31,23 @@ public final class Event extends AuditableModel {
             String remoteLink,
             String category
     ) {
+        this(title, description, startsAt, endsAt, vacancies, modality, location, remoteLink, category, null, null);
+    }
+
+    // Overloaded constructor that accepts organizerId and rejectionJustification
+    public Event(
+            String title,
+            String description,
+            ZonedDateTime startsAt,
+            ZonedDateTime endsAt,
+            Integer vacancies,
+            EventModality modality,
+            String location,
+            String remoteLink,
+            String category,
+            java.util.UUID organizerId,
+            String rejectionJustification
+    ) {
         super();
         this.title = title;
         this.description = description;
@@ -37,6 +56,8 @@ public final class Event extends AuditableModel {
         this.vacancies = vacancies;
         this.modality = modality;
         this.status = EventStatus.DRAFT;
+        this.organizerId = organizerId;
+        this.rejectionJustification = rejectionJustification;
         this.location = location;
         this.remoteLink = remoteLink;
         this.category = category;
@@ -55,6 +76,8 @@ public final class Event extends AuditableModel {
             Integer vacancies,
             EventModality modality,
             EventStatus status,
+            java.util.UUID organizerId,
+            String rejectionJustification,
             String location,
             String remoteLink,
             String category
@@ -67,6 +90,8 @@ public final class Event extends AuditableModel {
         this.vacancies = vacancies;
         this.modality = modality;
         this.status = status;
+        this.organizerId = organizerId;
+        this.rejectionJustification = rejectionJustification;
         this.location = location;
         this.remoteLink = remoteLink;
         this.category = category;
@@ -121,10 +146,23 @@ public final class Event extends AuditableModel {
     public Integer getVacancies() { return vacancies; }
     public EventModality getModality() { return modality; }
     public EventStatus getStatus() { return status; }
+    public java.util.UUID getOrganizerId() { return organizerId; }
+    public String getRejectionJustification() { return rejectionJustification; }
     public String getLocation() { return location; }
     public String getRemoteLink() { return remoteLink; }
     public String getCategory() { return category; }
 
     public void setStatus(EventStatus status) { this.status = status; }
+
+    public void approve() {
+        this.status = EventStatus.PUBLISHED;
+        this.rejectionJustification = null;
+    }
+
+    public void reject(String justification) {
+        this.rejectionJustification = justification;
+        // keep status as DRAFT (awaiting changes) or mark as CANCELLED if desired
+        this.status = EventStatus.DRAFT;
+    }
 }
      

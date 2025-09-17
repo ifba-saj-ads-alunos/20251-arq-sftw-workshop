@@ -16,7 +16,13 @@ export const authSecurityService = {
 
   saveAuthData: (loginOutput) => {
     localStorage.setItem('token', loginOutput.token);
-    localStorage.setItem('user', JSON.stringify(loginOutput.user));
+    // persist user and explicit role/accessLevel for easier client-side routing
+    const toStore = {
+      ...loginOutput.user,
+      userRole: loginOutput.role,
+      accessLevel: loginOutput.accessLevel
+    };
+    localStorage.setItem('user', JSON.stringify(toStore));
   },
 
   getToken: () => {

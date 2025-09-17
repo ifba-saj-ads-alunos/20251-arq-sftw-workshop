@@ -22,6 +22,8 @@ public final class EventEntityMapper implements BaseEntityMapper<Event, EventEnt
                 entity.getVacancies(),
                 EventModality.valueOf(entity.getModality()),
                 EventStatus.valueOf(entity.getStatus()),
+                entity.getOrganizerId(),
+                entity.getRejectionJustification(),
                 entity.getLocation(),
                 entity.getRemoteLink(),
                 entity.getCategory()
@@ -39,6 +41,8 @@ public final class EventEntityMapper implements BaseEntityMapper<Event, EventEnt
                 .vacancies(domain.getVacancies())
                 .modality(domain.getModality().name())
                 .status(domain.getStatus().name())
+                .organizerId(domain.getOrganizerId())
+                .rejectionJustification(domain.getRejectionJustification())
                 .location(domain.getLocation())
                 .remoteLink(domain.getRemoteLink())
                 .category(domain.getCategory())

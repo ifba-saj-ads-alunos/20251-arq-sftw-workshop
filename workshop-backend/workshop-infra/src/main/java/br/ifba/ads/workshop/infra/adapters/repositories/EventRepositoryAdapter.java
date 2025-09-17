@@ -17,5 +17,11 @@ public class EventRepositoryAdapter extends CrudRepositoryAdapter<Event, EventEn
     ) {
         super(repository, mapper);
     }
+
+    @Override
+    public java.util.List<Event> findByStatus(String status) {
+        var list = ((JpaEventRepository) this.getJpaRepository()).findByStatusOrderByStartsAtDesc(status);
+        return list.stream().map(this.getMapper()::toDomain).collect(java.util.stream.Collectors.toList());
+    }
 }
 

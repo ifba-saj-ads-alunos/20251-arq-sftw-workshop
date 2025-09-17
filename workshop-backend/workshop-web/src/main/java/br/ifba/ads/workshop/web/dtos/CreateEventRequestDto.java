@@ -12,5 +12,11 @@ public record CreateEventRequestDto(
         String localidade,  // Remota | Presencial
         String link,        // for Remota
         String sala         // for Presencial
-) {}
+,
+        java.util.List<SessionInput> sessions
+) {
+
+    public record SessionInput(String startsAt, String endsAt, Integer capacity, String room) {}
+
+}
 

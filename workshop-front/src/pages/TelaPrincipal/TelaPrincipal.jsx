@@ -4,11 +4,38 @@ import logo from '../../assets/ifba_logo.png';
 import { FaBars } from 'react-icons/fa';
 import eventosMock from '../../mocks/eventosMock'; 
 import InscricaoEventoModal from '../../components/InscricaoEventoModal/InscricaoEventoModal';
+import { fetchUnreadCount } from '../../services/notificationService';
+import { useEffect } from 'react';
 
 export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdministrador, onVisualizarMeusEventos, onVisualizarMeusCertificados }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
+  const [unread, setUnread] = useState(0);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const n = await fetchUnreadCount();
+        if (mounted) setUnread(n);
+      } catch (err) {
+        console.error('Erro ao buscar unread count', err);
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
+  useEffect(() => {
+    const handler = async () => {
+      try {
+        const n = await fetchUnreadCount();
+        setUnread(n);
+      } catch (err) { console.error('Erro ao atualizar unread count', err); }
+    };
+    window.addEventListener('notificationsUpdated', handler);
+    return () => window.removeEventListener('notificationsUpdated', handler);
+  }, []);
 
   const toggleMenu = () => setMenuAberto(!menuAberto);
 
@@ -57,6 +84,14 @@ export default function TelaPrincipal({ onLogout, onCadastrarEvento, onAbrirAdmi
           />
 
           <div className="lista-botoes tela-principal">
+            <div style={{position: 'relative', display: 'inline-block', marginRight: '8px'}}>
+              <button className="principal-btn tela-principal" onClick={() => window.dispatchEvent(new CustomEvent('openNotifications'))}>
+                Notificações
+              </button>
+              {unread > 0 && (
+                <span className="badge-unread">{unread}</span>
+              )}
+            </div>
             <button className="principal-btn tela-principal" onClick={onVisualizarMeusEventos}>
               Eventos Inscritos
             </button>

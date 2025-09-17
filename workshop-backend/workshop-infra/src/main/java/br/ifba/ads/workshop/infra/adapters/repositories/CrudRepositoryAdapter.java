@@ -22,6 +22,14 @@ public abstract class CrudRepositoryAdapter<T extends AuditableModel, E extends 
     private final JpaBaseRepository<E> repository;
     private final BaseEntityMapper<T, E> mapper;
 
+    protected JpaBaseRepository<E> getJpaRepository() {
+        return repository;
+    }
+
+    protected BaseEntityMapper<T, E> getMapper() {
+        return mapper;
+    }
+
     @Override
     public Boolean deleteById(UUID id) {
         Optional<T> model = findById(id);

@@ -13,6 +13,7 @@ public record CreateEventCommand(
         EventModality modality,
         String location,
         String remoteLink,
-        String category
+        String category,
+        java.util.UUID organizerId
 ) {}
 

@@ -19,15 +19,38 @@ function App() {
       const userData = authSecurityService.getUser();
       if (userData) {
         setUsuarioLogado(userData);
-        setTela('principal');
+        // Decide initial screen based on access level or role
+        const screen = decideScreenByRole(userData);
+        setTela(screen);
       }
     }
   }, []);
 
+  useEffect(() => {
+    const handler = () => setTela('notificacoes');
+    window.addEventListener('openNotifications', handler);
+    return () => window.removeEventListener('openNotifications', handler);
+  }, []);
+
   const handleLoginSuccess = (usuario) => {
     setUsuarioLogado(usuario);
-    setTela('principal');
+    const screen = decideScreenByRole(usuario);
+    setTela(screen);
   };
+
+  function decideScreenByRole(user) {
+    if (!user) return 'login';
+    // accessLevel may be 'ADMIN' or 'USER'
+    const accessLevel = typeof user.accessLevel === 'string' ? user.accessLevel : (user.accessLevel?.name || user.accessLevel);
+    if (accessLevel === 'ADMIN') return 'administrador';
+
+    // userRole may be a string like 'STUDENT', or an object/enum representation
+    const userRole = typeof user.userRole === 'string' ? user.userRole : (user.userRole?.name || user.userRole);
+    if (userRole === 'STUDENT') return 'principal';
+
+    // default for other roles
+    return 'principal';
+  }
 
   const handleLogout = () => {
     authSecurityService.logout();
@@ -80,6 +103,10 @@ function App() {
             usuario={usuarioLogado}
             onVoltar={() => setTela('administrador')}
           />
+        )}
+
+        {tela === 'notificacoes' && (
+          <TelaNotificacoes onVoltar={() => setTela('principal')} />
         )}
 
         {tela === 'eventosInscritos' && (

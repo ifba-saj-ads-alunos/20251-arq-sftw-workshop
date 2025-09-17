@@ -18,3 +18,18 @@ export async function createEvent(payload) {
   return res.data;
 }
 
+export async function approveEvent(eventId) {
+  const res = await httpFactory.post(`/api/v1/events/${eventId}/approve`);
+  return res.data;
+}
+
+export async function rejectEvent(eventId, justification) {
+  const res = await httpFactory.post(`/api/v1/events/${eventId}/reject`, { justification });
+  return res.data;
+}
+
+export async function fetchPendingEvents() {
+  const res = await httpFactory.get('/api/v1/events/pending');
+  return res.data;
+}
+

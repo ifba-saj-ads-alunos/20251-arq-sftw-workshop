@@ -18,7 +18,9 @@ public record EventOutput(
         EventStatus status,
         String location,
         String remoteLink,
-        String category
+        String category,
+        UUID organizerId,
+        String rejectionJustification
 ) {
     public static EventOutput fromDomain(Event event) {
         return new EventOutput(
@@ -32,7 +34,9 @@ public record EventOutput(
                 event.getStatus(),
                 event.getLocation(),
                 event.getRemoteLink(),
-                event.getCategory()
+                event.getCategory(),
+                event.getOrganizerId(),
+                event.getRejectionJustification()
         );
     }
 }

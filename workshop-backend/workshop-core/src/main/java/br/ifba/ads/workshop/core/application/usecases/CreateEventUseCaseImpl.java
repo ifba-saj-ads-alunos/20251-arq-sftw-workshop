@@ -15,17 +15,19 @@ public final class CreateEventUseCaseImpl implements CreateEventUseCase {
 
     @Override
     public EventOutput execute(CreateEventCommand command) {
-        final var event = new Event(
-                command.title(),
-                command.description(),
-                command.startsAt(),
-                command.endsAt(),
-                command.vacancies(),
-                command.modality(),
-                command.location(),
-                command.remoteLink(),
-                command.category()
-        );
+    final var event = new Event(
+        command.title(),
+        command.description(),
+        command.startsAt(),
+        command.endsAt(),
+        command.vacancies(),
+        command.modality(),
+        command.location(),
+        command.remoteLink(),
+        command.category(),
+        command.organizerId(),
+        null
+    );
 
         var saved = eventRepository.save(event);
         return EventOutput.fromDomain(saved);

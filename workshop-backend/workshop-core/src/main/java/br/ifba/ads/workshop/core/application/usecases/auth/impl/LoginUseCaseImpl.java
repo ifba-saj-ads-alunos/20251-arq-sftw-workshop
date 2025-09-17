@@ -7,10 +7,10 @@ import br.ifba.ads.workshop.core.application.gateways.PasswordEncoderGateway;
 import br.ifba.ads.workshop.core.application.gateways.TokenManagerGateway;
 import br.ifba.ads.workshop.core.application.gateways.TransactionManagerGateway;
 import br.ifba.ads.workshop.core.application.usecases.auth.LoginUseCase;
-import br.ifba.ads.workshop.core.domain.models.Session;
-import br.ifba.ads.workshop.core.domain.models.User;
 import br.ifba.ads.workshop.core.domain.exception.BusinessException;
 import br.ifba.ads.workshop.core.domain.exception.InternalServerException;
+import br.ifba.ads.workshop.core.domain.models.Session;
+import br.ifba.ads.workshop.core.domain.models.User;
 import br.ifba.ads.workshop.core.domain.repositories.UserRepository;
 import br.ifba.ads.workshop.core.domain.repositories.contracts.SaveOnlyRepository;
 
@@ -44,7 +44,9 @@ public final class LoginUseCaseImpl implements LoginUseCase {
             return transactionManagerGateway.doInTransaction(() -> {
                 createUserSession(user, token, command);
                 updateUserLastAccess(user);
-                return new LoginOutput(UserOutput.fromUser(user), token);
+                return new LoginOutput(UserOutput.fromUser(user), token,
+                        user.getUserRole().getType(),
+                        user.getAccessLevel().getType());
             });
 
         } catch (BusinessException e) {
