@@ -4,7 +4,7 @@ import logo from '../../assets/ifba_logo.png';
 import userService from '../../services/userService';
 import { useSnackbar } from '../../components/Snackbar/SnackbarContext';
 
-export default function CadastroUsuario({ onBack }) {
+export default function CadastroUsuario({ onBack, onRegistrationSuccess }) {
   const { showSuccess, showError } = useSnackbar();
   
   const [formData, setFormData] = useState({
@@ -54,26 +54,35 @@ export default function CadastroUsuario({ onBack }) {
     try {
       const userData = {
         name: formData.nome,
-  cpf: formData.cpf,
+        cpf: formData.cpf,
         email: formData.email,
         password: formData.senha,
         userRole: mapTipoToUserRole(formData.tipo)
       };
 
       await userService.createUser(userData);
-      showSuccess('Usuário cadastrado com sucesso!');
+      showSuccess('Usuário cadastrado com sucesso! Fazendo login...');
       
+      // Clear form data
       setFormData({
         nome: '',
-  cpf: '',
+        cpf: '',
         email: '',
         senha: '',
         tipo: 'Estudante'
       });
       
-      setTimeout(() => {
-        onBack();
-      }, 2000);
+      // If onRegistrationSuccess is provided, call it with login credentials
+      if (onRegistrationSuccess) {
+        setTimeout(() => {
+          onRegistrationSuccess(formData.email, formData.senha);
+        }, 1500);
+      } else {
+        // Fallback to just going back to login
+        setTimeout(() => {
+          onBack();
+        }, 2000);
+      }
       
     } catch (error) {
       if (error.response) {
@@ -123,6 +132,7 @@ export default function CadastroUsuario({ onBack }) {
             placeholder="Somente números"
             pattern="\d{11}"
             title="Informe 11 dígitos numéricos do CPF"
+            maxLength="11"
             required
           />
         </label>
