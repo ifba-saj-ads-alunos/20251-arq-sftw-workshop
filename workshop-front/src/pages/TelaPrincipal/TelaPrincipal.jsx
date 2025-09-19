@@ -14,21 +14,13 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
   const [eventoSelecionado, setEventoSelecionado] = useState(null);
   const [unread, setUnread] = useState(0);
   const [eventosDisponiveis, setEventosDisponiveis] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // Update available events based on user registrations
+  // Update available events - show all approved events with proper button states
   useEffect(() => {
-    if (usuario) {
-      const userId = usuario.id || usuario.email; // Use ID or email as user identifier
-      const eventosAprovados = eventosMock.filter(evento => evento.aprovado === true);
-      
-      // Filter out events the user is already registered for
-      const eventosNaoInscritos = eventosAprovados.filter(evento => 
-        !eventRegistrationService.isRegisteredForEvent(userId, evento.id)
-      );
-      
-      setEventosDisponiveis(eventosNaoInscritos);
-    }
-  }, [usuario]);
+    const eventosAprovados = eventosMock.filter(evento => evento.aprovado === true);
+    setEventosDisponiveis(eventosAprovados);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -85,6 +77,22 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
     setModalAberto(true);
   };
 
+  const handleButtonClick = (evento) => {
+    if (!usuario) {
+      alert('Você deve estar logado para se inscrever em eventos.');
+      return;
+    }
+    
+    const userId = usuario.id || usuario.email;
+    const isRegistered = eventRegistrationService.isRegisteredForEvent(userId, evento.id);
+    
+    if (isRegistered) {
+      alert('Você já está inscrito neste evento!');
+    } else {
+      abrirModalInscricao(evento);
+    }
+  };
+
   const confirmarInscricao = (evento) => {
     setModalAberto(false);
     
@@ -95,8 +103,8 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
       if (result.success) {
         alert(`Inscrição confirmada no evento: ${evento.titulo}`);
         
-        // Update available events by removing the registered event
-        setEventosDisponiveis(prev => prev.filter(e => e.id !== evento.id));
+        // Force re-render to update button states
+        setRefreshKey(prev => prev + 1);
       } else {
         alert(`Erro na inscrição: ${result.message}`);
       }
@@ -167,35 +175,40 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
 
         <h2 id="h2-eventos">Eventos Disponíveis</h2>
 
-        <div className="eventos-quadro">
+        <div className="eventos-quadro" key={refreshKey}>
           {eventosDisponiveis.length === 0 ? (
             <p>Nenhum evento disponível.</p>
           ) : (
-            eventosDisponiveis.map((evento) => (
-              <div key={evento.id} className="quadro-evento">
-                <h3>{evento.titulo}</h3>
-                <p><strong>Descrição:</strong> {evento.descricao}</p>
-                <p><strong>Categoria:</strong> {evento.categoria}</p>
-                <p><strong>Data:</strong> {evento.dataInicio} até {evento.dataFim}</p>
-                <p><strong>Vagas:</strong> {evento.vagas}</p>
-                <p><strong>Palestrante:</strong> {evento.palestrante}</p>
-                <p><strong>Localidade:</strong> {evento.localidade}</p>
-                {evento.localidade === 'Remota' && (
-                  <p><strong>Link:</strong> <a href={evento.link} target="_blank" rel="noopener noreferrer">{evento.link}</a></p>
-                )}
-                {evento.localidade === 'Presencial' && (
-                  <p><strong>Sala:</strong> {evento.sala}</p>
-                )}
+            eventosDisponiveis.map((evento) => {
+              const userId = usuario ? (usuario.id || usuario.email) : null;
+              const isRegistered = userId ? eventRegistrationService.isRegisteredForEvent(userId, evento.id) : false;
+              
+              return (
+                <div key={evento.id} className="quadro-evento">
+                  <h3>{evento.titulo}</h3>
+                  <p><strong>Descrição:</strong> {evento.descricao}</p>
+                  <p><strong>Categoria:</strong> {evento.categoria}</p>
+                  <p><strong>Data:</strong> {evento.dataInicio} até {evento.dataFim}</p>
+                  <p><strong>Vagas:</strong> {evento.vagas}</p>
+                  <p><strong>Palestrante:</strong> {evento.palestrante}</p>
+                  <p><strong>Localidade:</strong> {evento.localidade}</p>
+                  {evento.localidade === 'Remota' && (
+                    <p><strong>Link:</strong> <a href={evento.link} target="_blank" rel="noopener noreferrer">{evento.link}</a></p>
+                  )}
+                  {evento.localidade === 'Presencial' && (
+                    <p><strong>Sala:</strong> {evento.sala}</p>
+                  )}
 
-                <button 
-                  className="btn-inscrever"
-                  onClick={() => abrirModalInscricao(evento)}
-                >
-                  Inscrever-se
-                </button>
+                  <button 
+                    className={`btn-inscrever ${isRegistered ? 'inscrito' : ''}`}
+                    onClick={() => handleButtonClick(evento)}
+                  >
+                    {isRegistered ? 'Inscrito' : 'Inscrever-se'}
+                  </button>
 
-              </div>
-            ))
+                </div>
+              );
+            })
           )}
         </div>
       </div>

@@ -134,8 +134,8 @@ export default function CadastroEvento({ onBack }) {
         if (!res.ok) return;
         const data = await res.json();
         if (mounted) setRooms(data);
-      } catch (err) {
-        // ignore
+      } catch {
+        // ignore network errors
       }
     })();
     return () => { mounted = false; };
@@ -302,7 +302,7 @@ export default function CadastroEvento({ onBack }) {
                   const data = await res.json();
                   setRooms(prev => [...prev, data]);
                   setFormData(prev => ({ ...prev, sala: data.name }));
-                } catch (err) {
+                } catch {
                   alert('Erro ao criar sala');
                 }
               }}>Adicionar Sala</button>

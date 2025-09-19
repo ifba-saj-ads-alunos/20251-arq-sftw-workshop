@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './VisualizarCertificados.css';
 import logo from '../../assets/ifba_logo.png';
 

@@ -55,6 +55,28 @@ function App() {
     return 'principal';
   }
 
+  const handleAutoLoginAfterRegistration = async (email, password) => {
+    try {
+      // Import the auth service to perform login
+      const authSecurityService = (await import('./services/authSecurityService')).default;
+      
+      const loginResult = await authSecurityService.login(email, password);
+      authSecurityService.saveAuthData(loginResult);
+      
+      // Set up the user and navigate to main screen
+      const userData = authSecurityService.getUser();
+      if (userData) {
+        setUsuarioLogado(userData);
+        const screen = decideScreenByRole(userData);
+        setTela(screen);
+      }
+    } catch (error) {
+      console.error('Auto-login failed after registration:', error);
+      // If auto-login fails, just go back to login screen
+      setTela('login');
+    }
+  };
+
   const handleLogout = () => {
     authSecurityService.logout();
     setUsuarioLogado(null);
@@ -72,7 +94,10 @@ function App() {
         )}
 
         {tela === 'cadastroUsuario' && (
-          <CadastroUsuario onBack={() => setTela('login')} />
+          <CadastroUsuario 
+            onBack={() => setTela('login')} 
+            onRegistrationSuccess={handleAutoLoginAfterRegistration}
+          />
         )}
 
         {tela === 'principal' && (
