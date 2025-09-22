@@ -24,19 +24,23 @@ export default function TelaSugestoes({ onVoltar }) {
 
   return (
     <div className="tela-container">
-      <div className="principal-container">
-        <div className="topo-pagina">
+      <div className="principal-container sugestoes">
+        <div className="topo-pagina sugestoes">
           <img 
             src={logo}
             alt="Logo" 
             className="logo tela-principal"
           />
-          <h1>Sugestões</h1>
+          <h1 id="h1-sugestoes">Sugestões</h1>
+          <button className="secondary-btn btn-voltar sugestoes" onClick={onVoltar}>Voltar</button>
         </div>
 
         <div className="sugestoes-form-container">
-          <h2>Envie sua sugestão</h2>
-          <p>Sua opinião é importante para melhorarmos nossos eventos!</p>
+
+          <div>
+            <h2>Envie sua sugestão</h2>
+            <p>Sua opinião é importante para melhorarmos nossos eventos!</p>
+          </div>
 
           {enviada ? (
             <div className="sucesso-message">
@@ -79,8 +83,6 @@ export default function TelaSugestoes({ onVoltar }) {
             </form>
           )}
         </div>
-
-        <button className="secondary-btn" onClick={onVoltar}>Voltar</button>
       </div>
     </div>
   );

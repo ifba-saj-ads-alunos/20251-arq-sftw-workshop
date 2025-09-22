@@ -119,21 +119,39 @@ function App() {
         )}
 
         {tela === 'notificacoes' && (
-          <TelaNotificacoes onVoltar={() => setTela('principal')} />
+          <TelaNotificacoes
+            usuario={usuarioLogado} 
+            onVoltar={() => setTela('principal')}
+            onLogout={handleLogout}
+            onCadastrarEvento={() => setTela('cadastroEvento')}
+            onAbrirAdministrador={() => setTela('administrador')}
+            onVisualizarMeusEventos={() => setTela('eventosInscritos')}
+            onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}
+          />
         )}
 
         {tela === 'eventosInscritos' && (
           <EventosInscritos
             usuario={usuarioLogado}
             onBack={() => setTela('principal')}
-            onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}/>
+            onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}
+            onLogout={handleLogout}
+            onCadastrarEvento={() => setTela('cadastroEvento')}
+            onAbrirAdministrador={() => setTela('administrador')}
+            onVisualizarMeusEventos={() => setTela('eventosInscritos')}
+          />
         )}
 
         {tela === 'visualizarCertificados' && (
           <VisualizarCertificados
             usuario={usuarioLogado}
             onBack={() => setTela('principal')}
-            onVisualizarMeusEventos={() => setTela('eventosInscritos')} />
+            onVisualizarMeusEventos={() => setTela('eventosInscritos')}
+            onVisualizarMeusCertificados={() => setTela('visualizarCertificados')}
+            onLogout={handleLogout}
+            onCadastrarEvento={() => setTela('cadastroEvento')}
+            onAbrirAdministrador={() => setTela('administrador')}          
+          />
         )}
 
         {tela === 'sugestoes' && (

@@ -82,6 +82,14 @@
   color: #333;
 }
 
+button.principal-btn.tela-principal{
+  border: 5px double green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 button.btn-inscrever{
   border: none;
   border-radius: 4px;
@@ -159,6 +167,28 @@ button.btn-inscrever.inscrito:hover{
     flex-wrap: nowrap;
     flex-direction: row;
     margin-left: auto;
+  }
+
+  button.principal-btn.tela-principal.btn-icone {
+    flex-direction: column;
+    gap: 4px;
+    padding: 1rem 0.5rem;
+    width: 9em;
+  }
+
+  .icone-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .texto-btn {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
   }
 
   .menu-lateral {

@@ -13,4 +13,24 @@
     margin-left: auto;
     margin-right: 1rem;
   }
+
+  .eventos-inscritos-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 1rem;
+    order: 2;
+  }
+
+  .btn-voltar.eventos-inscritos {
+    order: 3;
+    margin-right: 0rem;
+  }
+
+  #h2-eventos-inscritos {
+    text-align: start;
+    margin-left: 1.5rem;
+    order: 1;
+  }
 }

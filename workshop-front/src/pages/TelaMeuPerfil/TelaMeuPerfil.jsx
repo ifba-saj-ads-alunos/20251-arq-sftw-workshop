@@ -29,14 +29,15 @@ export default function TelaMeuPerfil({ onVoltar }) {
 
   return (
     <div className="tela-container">
-      <div className="principal-container">
-        <div className="topo-pagina">
+      <div className="principal-container meu-perfil">
+        <div className="topo-pagina meu-perfil">
           <img 
             src={logo}
             alt="Logo" 
             className="logo tela-principal"
           />
-          <h1>Meu Perfil</h1>
+          <h1 id="h1-meu-perfil">Meu Perfil</h1>
+          <button className="secondary-btn btn-voltar meu-perfil" onClick={onVoltar}>Voltar</button>
         </div>
 
         <div className="perfil-container">
@@ -99,8 +100,6 @@ export default function TelaMeuPerfil({ onVoltar }) {
             </div>
           )}
         </div>
-
-        <button className="secondary-btn" onClick={onVoltar}>Voltar</button>
       </div>
     </div>
   );

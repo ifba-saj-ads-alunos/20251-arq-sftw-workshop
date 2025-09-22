@@ -49,7 +49,7 @@ button.principal-btn {
 }
 
 button.principal-btn:hover {
-  background-color: #0f9e6e;
+  background-color: #02583b;
 }
 
 button.secondary-btn {
@@ -72,7 +72,11 @@ button.cadastro-btn {
 }
 
 button.cadastro-btn:hover {
-  background-color: #0f9e6e;
+  background-color: #02583b;
+}
+
+button.selected-screen{
+  background-color: #02583b;
 }
 
 .cadastro-container {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './TelaPrincipal.css';
 import logo from '../../assets/ifba_logo.png';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaBell, FaClipboardList, FaCertificate, FaTrophy } from 'react-icons/fa';
 import eventosMock from '../../mocks/eventosMock'; 
 import InscricaoEventoModal from '../../components/InscricaoEventoModal/InscricaoEventoModal';
 import { fetchUnreadCount } from '../../services/notificationService';
@@ -138,21 +138,27 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
           />
 
           <div className="lista-botoes tela-principal">
-            <div style={{position: 'relative', display: 'inline-block', marginRight: '8px'}}>
-              <button className="principal-btn tela-principal" onClick={() => window.dispatchEvent(new CustomEvent('openNotifications'))}>
-                Notificações
+            <div className="btn-notificacao-wrapper" style={{position: 'relative'}}>
+              <button className="principal-btn tela-principal btn-icone" onClick={() => window.dispatchEvent(new CustomEvent('openNotifications'))}>
+                <span className="icone-btn"><FaBell /></span>
+                <span className="texto-btn">Notificações</span>
               </button>
               {unread > 0 && (
                 <span className="badge-unread">{unread}</span>
               )}
             </div>
-            <button className="principal-btn tela-principal" onClick={onVisualizarMeusEventos}>
-              Eventos Inscritos
+            <button className="principal-btn tela-principal btn-icone" onClick={onVisualizarMeusEventos}>
+              <span className="icone-btn"><FaClipboardList /></span>
+              <span className="texto-btn">Inscrições</span>
             </button>
-            <button className="principal-btn tela-principal" onClick={onVisualizarMeusCertificados}>
-              Certificados
+            <button className="principal-btn tela-principal btn-icone" onClick={onVisualizarMeusCertificados}>
+              <span className="icone-btn"><FaCertificate /></span>
+              <span className="texto-btn">Certificados</span>
             </button>
-            <button className="principal-btn tela-principal">Ranking de Eventos</button>
+            <button className="principal-btn tela-principal btn-icone">
+              <span className="icone-btn"><FaTrophy /></span>
+              <span className="texto-btn">Ranking</span>
+            </button>
           </div>
         </div>
 

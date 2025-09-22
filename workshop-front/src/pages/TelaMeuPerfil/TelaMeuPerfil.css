@@ -137,3 +137,48 @@
     gap: 0.25rem;
   }
 }
+
+@media (min-width: 900px) {
+  .perfil-container{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    margin-left: auto;
+    width: 90%;
+    max-width: none;
+    order: 2;
+  }
+
+  .perfil-info, .estatisticas, .eventos-recentes {
+    width: 33%;
+  }
+
+  .principal-container.meu-perfil {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topo-pagina.meu-perfil{
+    order: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    flex-direction: row;
+    max-width: none;
+  }
+
+  .btn-voltar.meu-perfil {
+    order: 3;
+    margin-right: 0rem;
+  }
+
+  #h1-meu-perfil {
+    margin-left: 3em;
+    border-bottom: 3px dotted green;
+    color: #333;
+  }
+}
