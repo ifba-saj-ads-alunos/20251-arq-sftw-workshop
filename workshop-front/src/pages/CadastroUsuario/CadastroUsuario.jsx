@@ -101,7 +101,7 @@ export default function CadastroUsuario({ onBack }) {
       <img src={logo} alt="Logo" className="logo cadastro-usuario" />
       <form onSubmit={handleSubmit} className="cadastro-form">
         <label className='cadastro-usuario'>
-          Nome:
+          Nome
           <input 
             type="text" 
             name="nome" 
@@ -113,7 +113,7 @@ export default function CadastroUsuario({ onBack }) {
         </label>
 
         <label className='cadastro-usuario'>
-          CPF:
+          CPF
           <input
             type="text"
             name="cpf"
@@ -124,23 +124,25 @@ export default function CadastroUsuario({ onBack }) {
             pattern="\d{11}"
             title="Informe 11 dígitos numéricos do CPF"
             required
+            maxLength={11}
           />
         </label>
 
         <label className='cadastro-usuario'>
-          Email:
+          Email
           <input 
             type="email" 
             name="email" 
             value={formData.email} 
             onChange={handleChange} 
             className='cadastro-usuario'
+            placeholder='Digite seu email...'
             required
           />
         </label>
 
         <label className='cadastro-usuario'>
-          Perfil:
+          Perfil
           <select name="tipo" value={formData.tipo} onChange={handleChange} className='cadastro-usuario'>
             <option value="Estudante">Estudante</option>
             <option value="Funcionário">Funcionário</option>
@@ -150,7 +152,7 @@ export default function CadastroUsuario({ onBack }) {
         </label>
 
         <label className='cadastro-usuario'>
-          Senha:
+          Senha
           <input 
             type="password" 
             name="senha" 

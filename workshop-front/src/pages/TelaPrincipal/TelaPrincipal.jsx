@@ -79,16 +79,19 @@ export default function TelaPrincipal({ usuario, onLogout, onCadastrarEvento, on
   const userRole = getUserRole();
 
   return (
-    <div className="tela-container">
+    <div className={`tela-container ${menuAberto ? 'menu-aberto' : ''}`}>
       <div className="principal-container">
-        <div className="menu-hamburguer" onClick={toggleMenu}>
-          <FaBars size={24} />
+        <div className={`menu-hamburguer ${menuAberto ? 'is-hidden' : ''}`} onClick={toggleMenu}> <FaBars size={24} />
         </div>
 
         {menuAberto && <div className="overlay" onClick={() => setMenuAberto(false)} />}
 
         {menuAberto && (
           <div className="menu-lateral">
+            <button className="menu-close" onClick={() => setMenuAberto(false)}>X</button>
+            <div className="menu-logo">
+              <img src={logo} alt="Logo IFBA" className="logo menu-logo-img" />
+            </div>
             <button onClick={() => {
               setMenuAberto(false);
               if (userRole === 'VISITOR') {

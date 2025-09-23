@@ -3,11 +3,13 @@ input[type="email"].cadastro-usuario,
 input[type="password"].cadastro-usuario,
 select.cadastro-usuario{
   width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
+  padding: 0.6em;
+  margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
   border: 1px solid #10B981;
-  border-radius: 4px;
+  border-radius: 7px;
   font-size: 1rem;
+  
 }
 
 button {
@@ -46,6 +48,7 @@ button.secondary-btn:hover {
   margin-bottom: 1rem;
 }
 
+
 textarea.cadastro-usuario {
   width: 100%;
   padding: 0.5rem;
@@ -66,6 +69,7 @@ textarea.cadastro-usuario {
   button.cadastro-usuario{
     width: 20rem;
     margin: 1rem auto;
+    border-radius: 10px;
   }
 
   input.cadastro-usuario,
@@ -76,11 +80,13 @@ textarea.cadastro-usuario {
     margin-bottom: 0.5rem;
     display: block;
     font-size: 1.1rem;
+    border-radius: 7px;
   }
 
   label.cadastro-usuario{
     margin: 1.25rem auto;
     width: 20rem;
+    
   }
 
   .radio-group.cadastro-usuario{

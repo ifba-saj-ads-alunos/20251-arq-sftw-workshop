@@ -31,12 +31,13 @@ public class SecurityConfig {
 
     private final String[] ignoreAuth = {
             "/api/v1/auth/**",
+            "api/v1/events/**"
     };
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(CsrfConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Adicionar esta linha
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(adminAuth).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
