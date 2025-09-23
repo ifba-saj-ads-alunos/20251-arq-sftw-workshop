@@ -24,15 +24,15 @@ public class SecurityConfig {
     public SecurityConfig(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
     }
+        private final String[] adminAuth = {
 
-    private final String[] adminAuth = {
-            "/api/v1/events/**"
-    };
+        };
 
-    private final String[] ignoreAuth = {
-            "/api/v1/auth/**",
-            "api/v1/events/**"
-    };
+        private final String[] ignoreAuth = {
+                "/api/v1/auth/**",
+                "/api/v1/events/**",
+                "/api/v1/rooms/**"
+        };
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

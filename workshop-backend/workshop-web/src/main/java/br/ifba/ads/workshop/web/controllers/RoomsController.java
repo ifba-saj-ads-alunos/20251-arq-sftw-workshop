@@ -9,6 +9,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
 @RequestMapping("/api/v1/rooms")
 public class RoomsController {
@@ -18,6 +19,7 @@ public class RoomsController {
         this.roomRepository = roomRepository;
     }
 
+    
     @GetMapping
     public ResponseEntity<List<RoomOutput>> list() {
         List<Room> rooms = roomRepository.findAll();

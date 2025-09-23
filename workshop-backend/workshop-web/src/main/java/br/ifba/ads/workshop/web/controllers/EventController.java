@@ -9,7 +9,6 @@ import br.ifba.ads.workshop.web.dtos.CreateEventRequestDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +41,7 @@ public class EventController extends BaseController {
         this.eventSessionRepository = eventSessionRepository;
     }
 
+    
     @PostMapping
     public ResponseEntity<EventOutput> create(@Valid @RequestBody CreateEventRequestDto dto,
                                               @AuthenticationPrincipal TokenMainInfo principal) {
